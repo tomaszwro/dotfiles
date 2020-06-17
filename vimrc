@@ -27,6 +27,87 @@ Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 call plug#end()
 
+" camelcasemotion
+" e2816c75c3b73f176af3e94576793b342976f0a1
+" ctrlp.vim
+" 35c9b961c916e4370f97cb74a0ba57435a3dbc25
+" dracula
+" 0f4ebc51a7b620f07ff51d2d75d536d975b52f55
+" fzf.vim
+" f0acabf7e837e626c7102c30af890bccf79e33b7
+" gruvbox
+" cb4e7a5643f7d2dd40e694bcbd28c4b89b185e86
+" lightline.vim
+" 78c43c144643e49c529a93b9eaa4eda12614f923
+" nerdtree
+" ed446e5cbe0733a8f98befc88d33e42edebb67d2
+" setcolors.vim
+" eef7a46d8313c22ba265cdbdfa1892060a33d758
+" splitjoin.vim
+" 13cf529dbd719365e9ec0dfa96dc1db50b957c85
+" taboo.vim
+" 1367baf547ff931b63ea6a389e551f4ed280eadf
+" vim-airline
+" 958f78335eafe419ee002ad58d358854323de33a
+" vim-colors-solarized
+" 528a59f26d12278698bb946f8fb82a63711eec21
+" vim-colorschemes
+" eab315701f4627967fd62582eefc4e37a3745786
+" vim-commentary
+" 89f43af18692d22ed999c3097e449f12fdd8b299
+" vim-dispatch
+" 4104901e9d6a304a5022b780f8e20d3becc7da93
+" vim-easyclip
+" 00aae5cc683397ef4c1abd3e6499bdc1a408e17e
+" vim-endwise
+" d5655263af8b3611a2bcb907a9963831a88d154b
+" vim-eunuch
+" 10da325fb032a1acfa9222d273459f53bad30ba4
+" vim-fugitive
+" b82abd5bd583cfb90be63ae12adc36a84577bd45
+" vim-gitgutter
+" 538e07882a985590027313d23dedfea7e1d19807
+" vim-indent-object
+" 41d700f14b3decccdde421fbfe49e95a084a2f89
+" vim-javascript
+" 7cc6baebaf0065fd8c31cc9216c87bfa543eb71a
+" vim-jsx-pretty
+" 994503b30c929353c107eb9166accd68d35b83b5
+" vim-min-git-status
+" 2d5fa55a9d2ef790f1e6f241ca656a272b8d5e5d
+" vim-multiple-cursors
+" c9b95e49a48937903c9fc41d87d9b4c9aded10d7
+" vim-repeat
+" 8106e142dfdc278ff3eaaadd7b362ad7949d4357
+" vim-rhubarb
+" 6caad2b61afcc1b7c476b0ae3dea9ee5f2b1d14a
+" vim-rsi
+" c19aeb88592555d277af56d453ea8b43dc8266de
+" vim-ruby
+" 15e32500f58c3bb66eb6b1eb4af57d86263895c0
+" vim-sensible
+" 2d60332fa5b2b1ea346864245569df426052865a
+" vim-slim
+" 6673e404370e6f3d44be342cf03ea8c26ab02c66
+" vim-smooth-scroll
+" 0eae2367c70c3415b97869346af1b5e30c123dff
+" vim-surround
+" e49d6c2459e0f5569ff2d533b4df995dd7f98313
+" vim-test
+" 062c489781c995f7e81103fec8a3c07bd2ff1f4b
+" vim-textobj-entire
+" 64a856c9dff3425ed8a863b9ec0a21dbaee6fb3a
+" vim-textobj-indent
+" deb76867c302f933c8f21753806cbf2d8461b548
+" vim-textobj-quotes
+" cca9686acf7b21d930ced1801120ecf23fb2f995
+" vim-textobj-user
+" e231b65797b5765b3ee862d71077e9bd56f3ca3e
+" vim-unimpaired
+" c77939c4aff30b2ed68deb1752400ec15f17c3a2
+" vim-vinegar
+" c38ea2195a43747aedf0bb4b7eb5aa8870260296
+
 "-------------------------------------------------
 "-------------------------------------------------
 "-------------------------------------------------
@@ -224,8 +305,9 @@ endfunction
 
 command! TermTestAll         call TermTest("echo Running... && bin/rails t")
 command! TermTestAllFailFast call TermTest("echo Please implement me")
-command! TermTestFile        call TermTest("echo Running... && bin/rails t " . @%)
-command! TermTestSingle      call TermTest("echo Running... && bin/rails t " . @% . ":" . line('.'))
+" echo Running... && 
+command! TermTestFile        call TermTest("bin/rails t " . @% . " && say green || say red")
+command! TermTestSingle      call TermTest("bin/rails t " . @% . ":" . line('.') . " && say green || say red")
 
 command! TermTestRetry       call TermTest(g:TermTest_last_test)
 command! TermTestView        exec 'buf ' . g:TermTest_last_buffer
@@ -424,6 +506,7 @@ nnoremap <Leader>ch :GitGutterStageHunk<CR>:Gcommit -v<CR>
 nnoremap <Leader>cc :Gcommit -v<CR>
 
 nnoremap ff :FZF<CR>
+nnoremap fs :FilesModified<CR>
 
 augroup MyTermMappings
   autocmd!
@@ -457,3 +540,43 @@ vmap fcf gg]]
 nmap vai vaI
 nmap vis jvii
 nmap vas jvai
+" nmap vas jvaioj
+
+command! OpenTitleleaf
+  \  cd ~/work/titleleaf/titleleaf
+  \| e todos
+
+nnoremap <Leader>ot :OpenTitleleaf<CR>
+
+nnoremap tm I☐ <Esc>
+nnoremap tn o☐ 
+nnoremap to o☐ 
+nnoremap td ^r☑
+nnoremap tt ^r☑
+nnoremap tu ^r☐
+nnoremap tr ^r☒
+
+" `S` and `Q` are free - maybe can be used to traverse LRU files, akin to C-i and C-o
+
+" TODO: PutInspectStatement but for visually selected text
+
+" TODO: double <C-b> for actual <C-b>
+
+" TODO: run tests in tmux and only connect to them? vim can connect to itr. this way they could always run in right pane while having vim close and open freely
+
+" TODO: convert FilesModified to terminal?
+" TODO: convert BrowseOldFilesFromCwd to term?
+
+" TODO: PutLocationStatementForCurrentWordIntoClipboard - automatically look for & instert class and method name? do it already in PutInspectStatement?
+
+" let @+ = 'console.log("----- DEBUGGERER: ' . expand('<cword>') . '", ' . expand('<cword>') . ');' . "\n"
+" let @+ = 'console.log("----- DEBUGGERER in ' . expand('<cword>') . '");' . "\n"
+
+" if has('nvim')
+"   autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
+" else if exists('##TerminalOpen')
+"   autocmd TerminalOpen * nnoremap <buffer> <C-c> i<C-c>
+" endif
+
+" TODO: convert vai, vis, vas to proper text objects
+" TODO: method class finders (fmn, fcn) - add MapNextTo...
