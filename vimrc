@@ -25,6 +25,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'slim-template/vim-slim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
+Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 " camelcasemotion
@@ -213,15 +214,17 @@ command! Ghunks
   \    }
   \  ''')
 
-command! FilesModified
-  \  new
-  \| setlocal buftype=nofile
-  \| setlocal bufhidden=hide
-  \| setlocal noswapfile
-  \| execute '0read ! git status -su'
-  \| execute 'normal G"_ddgg'
-  \| execute 'nnoremap <silent> <buffer> <CR> $gf:only<CR>'
-  \| execute 'nnoremap <silent> <buffer>    o $gf:only<CR>'
+" command! FilesModified
+"   \  new
+"   \| setlocal buftype=nofile
+"   \| setlocal bufhidden=hide
+"   \| setlocal noswapfile
+"   \| execute '0read ! git status -su'
+"   \| execute 'normal G"_ddgg'
+"   \| execute 'nnoremap <silent> <buffer> <CR> $gf:only<CR>'
+"   \| execute 'nnoremap <silent> <buffer>    o $gf:only<CR>'
+
+command! FilesModified call fzf#run(fzf#wrap({'source': 'git status -su | cut -c 4-'}))
 
 command! MethodOverview
   \  enew
@@ -229,7 +232,7 @@ command! MethodOverview
   \| setlocal bufhidden=hide
   \| setlocal noswapfile
   \| setfiletype ruby
-  \| execute '0read ! grep "def\|class\|module\|private\|protected\|attr_\|describe \|it \|specify " ' . expand('#')
+  \| execute '0read ! grep "def\|class\|module\|private\|protected\|attr_\|describe \|it \|specify \|context" ' . expand('#')
   \| normal Gddgg
 
 function! PutInspectStatementForCurrentWordIntoClipboard()
@@ -292,7 +295,8 @@ endfunction
 function! TermTestWindow(test_command)
   silent update
   if winnr('$') == 1
-    13sp
+    " 30sp
+    vs
   else
     wincmd w
   endif
@@ -303,11 +307,11 @@ function! TermTestWindow(test_command)
   wincmd p
 endfunction
 
-command! TermTestAll         call TermTest("echo Running... && bin/rails t")
+command! TermTestAll         call TermTest("echo Running... && be rspec && say green || say red")
 command! TermTestAllFailFast call TermTest("echo Please implement me")
 " echo Running... && 
-command! TermTestFile        call TermTest("bin/rails t " . @% . " && say green || say red")
-command! TermTestSingle      call TermTest("bin/rails t " . @% . ":" . line('.') . " && say green || say red")
+command! TermTestFile        call TermTest("bundle exec rspec " . @% . " && say green || say red")
+command! TermTestSingle      call TermTest("bundle exec rspec " . @% . ":" . line('.') . " && say green || say red")
 
 command! TermTestRetry       call TermTest(g:TermTest_last_test)
 command! TermTestView        exec 'buf ' . g:TermTest_last_buffer

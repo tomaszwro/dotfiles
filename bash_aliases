@@ -11,7 +11,8 @@ alias rk='bundle exec rake'
 alias mr='multigit'
 alias mg='multigit git'
 
-function git_diff_raw_tracked   { git --no-pager diff --color -w --patience --word-diff=color $*; }
+# function git_diff_raw_tracked   { git --no-pager diff --color -w --patience --word-diff=color $*; }
+function git_diff_raw_tracked   { git --no-pager diff --color -w --patience $*; }
 function git_diff_raw_untracked { git ls-files --other --exclude-standard | xargs cat -n; }
 function git_diff_raw_staged    { git_diff_raw_tracked --cached $*; }
 function git_diff_raw_all       {
