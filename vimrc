@@ -295,8 +295,8 @@ endfunction
 function! TermTestWindow(test_command)
   silent update
   if winnr('$') == 1
-    " 30sp
-    vs
+    20sp
+    " vs
   else
     wincmd w
   endif
