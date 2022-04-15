@@ -545,12 +545,6 @@ nmap vis jvii
 nmap vas jvai
 " nmap vas jvaioj
 
-command! OpenTitleleaf
-  \  cd ~/work/titleleaf/titleleaf
-  \| e todos
-
-nnoremap <Leader>ot :OpenTitleleaf<CR>
-
 nnoremap tm I☐ <Esc>
 nnoremap tn o☐ 
 nnoremap to o☐ 
@@ -559,27 +553,3 @@ nnoremap tt ^r☑
 nnoremap tu ^r☐
 nnoremap tr ^r☒
 
-" `S` and `Q` are free - maybe can be used to traverse LRU files, akin to C-i and C-o
-
-" TODO: PutInspectStatement but for visually selected text
-
-" TODO: double <C-b> for actual <C-b>
-
-" TODO: run tests in tmux and only connect to them? vim can connect to itr. this way they could always run in right pane while having vim close and open freely
-
-" TODO: convert FilesModified to terminal?
-" TODO: convert BrowseOldFilesFromCwd to term?
-
-" TODO: PutLocationStatementForCurrentWordIntoClipboard - automatically look for & instert class and method name? do it already in PutInspectStatement?
-
-" let @+ = 'console.log("----- DEBUGGERER: ' . expand('<cword>') . '", ' . expand('<cword>') . ');' . "\n"
-" let @+ = 'console.log("----- DEBUGGERER in ' . expand('<cword>') . '");' . "\n"
-
-" if has('nvim')
-"   autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
-" else if exists('##TerminalOpen')
-"   autocmd TerminalOpen * nnoremap <buffer> <C-c> i<C-c>
-" endif
-
-" TODO: convert vai, vis, vas to proper text objects
-" TODO: method class finders (fmn, fcn) - add MapNextTo...
