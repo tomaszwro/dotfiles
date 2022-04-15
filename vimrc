@@ -475,8 +475,7 @@ nnoremap <Leader>ff :FZF<CR>
 nnoremap <Leader>fo :call BrowseOldFilesFromCwd()<CR>
 
 nmap     <Leader>i :call PutInspectStatementForCurrentWordIntoClipboard()<CR>
-nmap     <Leader>l :call PutLocationStatementForCurrentWordIntoClipboard()<CR>
-
+nmap     <Leader>l oputs "----- DEBUGGERER ppp in #{ self.class } #{ __method__ }"<ESC>
 nmap     <Leader>n <NOP>
 nnoremap <Leader>ne :sp todos<CR>
 nnoremap <Leader>nf :e todos<CR>
