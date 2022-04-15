@@ -510,6 +510,10 @@ nnoremap <Leader>ca :Gcd .<CR>:silent ! git add .<CR>:cd -<CR>:Gcommit -v<CR>
 nnoremap <Leader>ch :GitGutterStageHunk<CR>:Gcommit -v<CR>
 nnoremap <Leader>cc :Gcommit -v<CR>
 
+nnoremap <Leader>xn :te<CR>a
+nnoremap <Leader>xx :sp\|te<CR>a
+nnoremap <Leader>xt :tabnew\|te<CR>a
+
 nnoremap ff :FZF<CR>
 nnoremap fs :FilesModified<CR>
 
