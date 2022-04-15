@@ -239,8 +239,10 @@ function! PutInspectStatementForCurrentWordIntoClipboard()
   let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.inspect }"' ."\n"
 endfunction
 
-function! PutLocationStatementForCurrentWordIntoClipboard()
-  let @+ = 'puts "----- DEBUGGERER in ' . expand('<cword>') . '"' . "\n"
+function! SaveCurrentLocationInTodos()
+  let @+ = expand("%") . ':' . line('.') . "\n"
+  sp todos
+  normal ggP
 endfunction
 
 function! BrowseOldFilesFromCwd()
