@@ -2,8 +2,6 @@
 # be there if the file is sourced in vim's BASH_ENV.
 shopt -s expand_aliases
 
-source ~/work/multigit/multigit.sh
-
 alias ll='ls -lG'
 alias be='bundle exec'
 alias r='bundle exec rails'
