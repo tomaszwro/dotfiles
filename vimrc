@@ -297,7 +297,6 @@ function! TermTestWindow(test_command)
   silent update
   if winnr('$') == 1
     20sp
-    " vs
   else
     wincmd w
   endif
@@ -308,12 +307,9 @@ function! TermTestWindow(test_command)
   wincmd p
 endfunction
 
-command! TermTestAll         call TermTest("echo Running... && be rspec && say green || say red")
-command! TermTestAllFailFast call TermTest("echo Please implement me")
-" echo Running... && 
-command! TermTestFile        call TermTest("bundle exec rspec " . @% . " && say green || say red")
-command! TermTestSingle      call TermTest("bundle exec rspec " . @% . ":" . line('.') . " && say green || say red")
-
+command! TermTestAll         call TermTest("echo Running... && be rspec && say gra || say nie gra")
+command! TermTestFile        call TermTest("echo Running... && be rspec " . @% . " && say gra || say nie gra")
+command! TermTestSingle      call TermTest("echo Running... && be rspec " . @% . ":" . line('.') . " && say gra || say nie gra")
 command! TermTestRetry       call TermTest(g:TermTest_last_test)
 command! TermTestView        exec 'buf ' . g:TermTest_last_buffer
 
@@ -490,7 +486,6 @@ nnoremap <Leader>on :OpenNotes<CR>
 
 nmap     <Leader>t  <NOP>
 nnoremap <Leader>ta :TermTestAll<CR>
-nnoremap <Leader>ts :TermTestAllFailFast<CR>
 nnoremap <Leader>tf :TermTestFile<CR>
 nnoremap <Leader>tt :TermTestSingle<CR>
 nnoremap <Leader>tr :TermTestRetry<CR>
@@ -565,4 +560,3 @@ nnoremap td ^r☑
 nnoremap tt ^r☑
 nnoremap tu ^r☐
 nnoremap tr ^r☒
-
