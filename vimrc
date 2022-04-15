@@ -476,11 +476,16 @@ nnoremap <Leader>fo :call BrowseOldFilesFromCwd()<CR>
 
 nmap     <Leader>i :call PutInspectStatementForCurrentWordIntoClipboard()<CR>
 nmap     <Leader>l oputs "----- DEBUGGERER ppp in #{ self.class } #{ __method__ }"<ESC>
+
+nmap     <Leader>m <NOP>
+nnoremap <Leader>mq :MapNextToQuickFix<CR>
+
 nmap     <Leader>n <NOP>
 nnoremap <Leader>ne :sp todos<CR>
 nnoremap <Leader>nf :e todos<CR>
 nnoremap <Leader>ni :e ~/snapnote/inbox<CR>
 nnoremap <Leader>na :e ~/snapnote/inbox<CR>Go<Esc>o
+
 nnoremap <Leader>on :OpenNotes<CR>
 
 nmap     <Leader>t  <NOP>
