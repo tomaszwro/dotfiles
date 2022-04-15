@@ -498,7 +498,7 @@ nnoremap <Leader>hf gg:GitGutterNextHunk<CR>zz:MapNextToGitGutterHunk<CR>
 nnoremap <Leader>hg :Ghunks<CR>
 
 nmap     <Leader>s  <NOP>
-nmap     <Leader>sh <Plug>GitGutterStageHunk
+nmap     <Leader>sh <Plug>(GitGutterStageHunk)
 nmap     <Leader>sf :Gwrite<CR>
 nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
 nnoremap <Leader>sw :set wrap!<CR>
