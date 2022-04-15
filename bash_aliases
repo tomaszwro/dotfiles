@@ -34,6 +34,9 @@ function gsh { git stash show -p $*; }
 function gsp { git stash pop $*; }
 function glc { git log -p --color $* | less -iRS +/^commit; }
 
+function gco { git checkout $*; }
+function gcb { git checkout -b $*; }
+
 function rtf   { echo "Running tests";                        bundle exec ruby -Itest $* && say green || say red; }
 function rta   { echo "Running tests";                        bundle exec rake test      && say green || say red; }
 function rtaff { echo "Running tests"; TESTOPTS="--fail-fast" bundle exec rake test      && say green || say red; }
