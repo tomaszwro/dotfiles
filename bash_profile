@@ -16,4 +16,7 @@ export HISTIGNORE="tm *"
 shopt -s histappend
 export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
+export PATH="/usr/local/opt/node@14/bin:$PATH"
+export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
+
 eval "$(rbenv init -)"
