@@ -514,6 +514,8 @@ nnoremap <Leader>xn :te<CR>a
 nnoremap <Leader>xx :sp\|te<CR>a
 nnoremap <Leader>xt :tabnew\|te<CR>a
 
+nnoremap <Leader><Leader> gF
+
 nnoremap ff :FZF<CR>
 nnoremap fs :FilesModified<CR>
 
