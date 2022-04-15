@@ -502,6 +502,7 @@ nmap     <Leader>sh <Plug>GitGutterStageHunk
 nmap     <Leader>sf :Gwrite<CR>
 nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
 nnoremap <Leader>sw :set wrap!<CR>
+nnoremap <Leader>sn :set number!<CR>
 
 nmap     <Leader>c  <NOP>
 nnoremap <Leader>cf :Gwrite\|Gcommit -v<CR>
