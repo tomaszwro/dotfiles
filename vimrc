@@ -214,17 +214,16 @@ command! Ghunks
   \    }
   \  ''')
 
-" command! FilesModified
-"   \  new
-"   \| setlocal buftype=nofile
-"   \| setlocal bufhidden=hide
-"   \| setlocal noswapfile
-"   \| execute '0read ! git status -su'
-"   \| execute 'normal G"_ddgg'
-"   \| execute 'nnoremap <silent> <buffer> <CR> $gf:only<CR>'
-"   \| execute 'nnoremap <silent> <buffer>    o $gf:only<CR>'
-
-command! FilesModified call fzf#run(fzf#wrap({'source': 'git status -su | cut -c 4-'}))
+" command! FilesModified call fzf#run(fzf#wrap({'source': 'git status -su | cut -c 4-'}))
+command! FilesModified
+  \  new
+  \| setlocal buftype=nofile
+  \| setlocal bufhidden=hide
+  \| setlocal noswapfile
+  \| execute '0read ! git status -su'
+  \| execute 'normal G"_ddgg'
+  \| execute 'nnoremap <silent> <buffer> <CR> $gf:only<CR>'
+  \| execute 'nnoremap <silent> <buffer>    o $gf:only<CR>'
 
 command! MethodOverview
   \  enew
