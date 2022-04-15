@@ -181,7 +181,7 @@ hi SignColumn ctermbg=bg
 "-------------------------------------------------
 "-------------------------------------------------
 
-command! -nargs=+ GrepRaw cex system('ag --column <args>')
+command! -nargs=+ GrepRaw cex system('ag --column --hidden --ignore .git --ignore \*.rbi <args>')
 command! -nargs=+ G GrepRaw <args>
 
 " vimscript escapes ' => '' and | to \|
