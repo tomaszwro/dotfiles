@@ -28,9 +28,6 @@ function gca  { git add .; git commit --verbose         $*; }
 function gcaa { git add .; git commit --verbose --amend $*; }
 function gcac {            git commit --verbose --amend $*; }
 
-function gps { gpl && git push $*; }
-function gpl { git pull --rebase $*; }
-
 function gsa { git stash save --include-untracked $*; }
 function gsl { git stash list $*; }
 function gsh { git stash show -p $*; }
