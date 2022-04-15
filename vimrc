@@ -471,7 +471,6 @@ vnoremap <Leader>gu "zy:GrepRaw "<C-R>z"<CR>
 
 nmap     <Leader>f  <NOP>
 nnoremap <Leader>fa <C-^>
-nnoremap <Leader>fs :FilesModified<CR>
 nnoremap <Leader>ff :FZF<CR>
 nnoremap <Leader>fo :call BrowseOldFilesFromCwd()<CR>
 
