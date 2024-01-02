@@ -2,7 +2,7 @@ source ~/.bash_aliases
 
 test -f ~/.fzf.bash && source ~/.fzf.bash
 
-export FZF_DEFAULT_COMMAND='ag --nocolor --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='ag --nocolor --hidden --ignore .git --ignore \*.rbi -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
 

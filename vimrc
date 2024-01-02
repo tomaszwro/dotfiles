@@ -25,7 +25,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'slim-template/vim-slim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'editorconfig/editorconfig-vim'
+" Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 " camelcasemotion
@@ -215,15 +215,16 @@ command! Ghunks
   \  ''')
 
 " command! FilesModified call fzf#run(fzf#wrap({'source': 'git status -su | cut -c 4-'}))
+" git status -su | awk '{print $2 " " $1}' | sort
 command! FilesModified
-  \  new
+  \  enew
   \| setlocal buftype=nofile
   \| setlocal bufhidden=hide
   \| setlocal noswapfile
-  \| execute '0read ! git status -su'
+  \| execute '0read ! gss'
   \| execute 'normal G"_ddgg'
-  \| execute 'nnoremap <silent> <buffer> <CR> $gf:only<CR>'
-  \| execute 'nnoremap <silent> <buffer>    o $gf:only<CR>'
+  \| execute 'nnoremap <silent> <buffer> <CR> gf<CR>'
+  \| execute 'nnoremap <silent> <buffer>    o gf<CR>'
 
 command! MethodOverview
   \  enew
@@ -231,7 +232,16 @@ command! MethodOverview
   \| setlocal bufhidden=hide
   \| setlocal noswapfile
   \| setfiletype ruby
-  \| execute '0read ! grep "def\|class\|module\|private\|protected\|attr_\|describe \|it \|specify \|context" ' . expand('#')
+  \| execute '0read ! grep "^\s*def\|^\s*class\|^\s*module\|^\s*private\|^\s*protected\|^\s*attr_\|^\s*describe \|^\s*it \|^\s*specify \|^\s*context" ' . expand('#')
+  \| normal Gddgg
+
+command! SpecOverview
+  \  enew
+  \| setlocal buftype=nofile
+  \| setlocal bufhidden=hide
+  \| setlocal noswapfile
+  \| setfiletype ruby
+  \| execute '0read ! grep "^\s*describe \|^\s*it \|^\s*specify \|^\s*context" ' . expand('#')
   \| normal Gddgg
 
 function! PutInspectStatementForCurrentWordIntoClipboard()
@@ -240,8 +250,8 @@ endfunction
 
 function! SaveCurrentLocationInTodos()
   let @+ = expand("%") . ':' . line('.') . "\n"
-  sp todos
-  normal ggP
+  sp /Users/tomaszwrobel/work/taskrabbit/v3/todos
+  normal Gp
 endfunction
 
 function! BrowseOldFilesFromCwd()
@@ -449,6 +459,10 @@ nmap     <Leader>  <NOP>
 nnoremap <Leader>q <C-w>q
 nnoremap <Leader>w <C-w>w
 nnoremap <Leader>e <C-w>o
+nnoremap <Leader>h <C-w>h
+nnoremap <Leader>j <C-w>j
+nnoremap <Leader>k <C-w>k
+nnoremap <Leader>l <C-w>l
 nnoremap <Leader>d :call GoToDefinition()<CR>
 nnoremap <Leader>a <C-^>
 nnoremap <Leader>r q:?
@@ -471,14 +485,15 @@ nnoremap <Leader>ff :FZF<CR>
 nnoremap <Leader>fo :call BrowseOldFilesFromCwd()<CR>
 
 nmap     <Leader>i :call PutInspectStatementForCurrentWordIntoClipboard()<CR>
-nmap     <Leader>l oputs "----- DEBUGGERER ppp in #{ self.class } #{ __method__ }"<ESC>
+" nmap     <Leader>l oputs "----- DEBUGGERER -- #{ __FILE__.split("/").last.split(".").first } -- #{ __method__ } 1"<ESC>h
+nmap     <Leader>l oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ } 1"<ESC>h
 
 nmap     <Leader>m <NOP>
 nnoremap <Leader>mq :MapNextToQuickFix<CR>
 
 nmap     <Leader>n <NOP>
-nnoremap <Leader>ne :sp todos<CR>
-nnoremap <Leader>nf :e todos<CR>
+nnoremap <Leader>ne :sp /Users/tomaszwrobel/work/taskrabbit/v3/todos<CR>
+nnoremap <Leader>nf :e /Users/tomaszwrobel/work/taskrabbit/v3/todos<CR>
 nnoremap <Leader>ni :e ~/snapnote/inbox<CR>
 nnoremap <Leader>na :e ~/snapnote/inbox<CR>Go<Esc>o
 
@@ -560,3 +575,33 @@ nnoremap td ^r☑
 nnoremap tt ^r☑
 nnoremap tu ^r☐
 nnoremap tr ^r☒
+
+nnoremap j gj
+nnoremap k gk
+
+function! CdIntoSpec()
+    let current_file = expand("%") 
+
+    if current_file =~ '^spec'
+        echom "File starts with 'spec', no directory change needed."
+        return
+    endif
+
+    let components = split(current_file, "/")
+
+    let first_two_components = components[0] . '/' . components[1]
+    echom "changing cwd to: " . first_two_components
+
+    execute 'cd ' . first_two_components
+endfunction
+
+function! CdIntoGem()
+    let current_file = expand("%") 
+
+    let components = split(current_file, "/")
+
+    let first_two_components = components[0] . '/' . components[1]
+    echom "changing cwd to: " . first_two_components
+
+    execute 'cd ' . first_two_components
+endfunction

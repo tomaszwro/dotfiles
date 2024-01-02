@@ -11,7 +11,7 @@ alias mg='multigit git'
 
 # function git_diff_raw_tracked   { git --no-pager diff --color -w --patience --word-diff=color $*; }
 function git_diff_raw_tracked   { git --no-pager diff --color -w --patience $*; }
-function git_diff_raw_untracked { git ls-files --other --exclude-standard | xargs cat -n; }
+function git_diff_raw_untracked { git ls-files --other --exclude-standard | xargs -I% cat -n %; }
 function git_diff_raw_staged    { git_diff_raw_tracked --cached $*; }
 function git_diff_raw_all       {
   git_diff_raw_staged  $* | sed 's/^/\>\>\> /'
@@ -20,18 +20,21 @@ function git_diff_raw_all       {
 }
 
 function gs   { git cherry -v; git status -s $*; }
+function gss  { git status -su | awk '{print $2 " " $1}' | sort; }
 function gd   { git_diff_raw_all $* | less -S; }
 function gc   {            git commit --verbose         $*; }
 function gca  { git add .; git commit --verbose         $*; }
 function gcaa { git add .; git commit --verbose --amend $*; }
 function gcac {            git commit --verbose --amend $*; }
+function gs_files { git status -su | cut -c 4-; }
 
 function gsa { git stash save --include-untracked $*; }
 function gsl { git stash list $*; }
 function gsh { git stash show -p $*; }
 function gsp { git stash pop $*; }
 function glc { git log -p --color $* | less -iRS +/^commit; }
-
+function gcp { git cherry-pick $*; }
+function glo { git log --oneline $*; }
 function gco { git checkout $*; }
 function gcb { git checkout -b $*; }
 
@@ -51,7 +54,7 @@ function vd { nvim -c Ghunks; }
 function vh { nvim -c Ghunks; }
 function vo { nvim -c 'execute "normal \<C-O>\<C-O>"'; }
 function vs { nvim -c FilesModified; }
-function vn { nvim -c OpenNotes; }
+function vn { nvim -c OpenNotes; cd ~/snapnote; gca -mupdate && git push; cd -; }
 
 function vim_with_no_arg_fallback { test $# -eq 0 && nvim -c "call OpenOldestFileFromCwd()" || nvim $*; }
 alias v='vim_with_no_arg_fallback'
