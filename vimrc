@@ -467,11 +467,11 @@ nnoremap <Leader>w <C-w>w
 nnoremap <Leader>e <C-w>o
 nnoremap <Leader>r q:?
 nmap     <Leader>t  <NOP>
-#                y
-#                u
+"                y
+"                u
 nmap     <Leader>i :call PutInspectStatementForCurrentWordIntoClipboard()<CR>
-#                o
-#                p
+"                o
+"                p
 
 nnoremap <Leader>a <C-^>
 nmap     <Leader>s  <NOP>
@@ -486,8 +486,8 @@ nmap     <Leader>l oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ }
 nnoremap <Leader>z :qa<CR>
 nmap     <Leader>x  <NOP>
 nmap     <Leader>c  <NOP>
-#                v
-#                b
+"                v
+"                b
 nmap     <Leader>n <NOP>
 nmap     <Leader>m <NOP>
 
