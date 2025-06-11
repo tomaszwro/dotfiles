@@ -486,7 +486,7 @@ nmap     <Leader>l oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ }
 nnoremap <Leader>z :qa<CR>
 nmap     <Leader>x  <NOP>
 nmap     <Leader>c  <NOP>
-"                v
+nnoremap <Leader>v <NOP>
 "                b
 nmap     <Leader>n <NOP>
 nmap     <Leader>m <NOP>
@@ -543,6 +543,8 @@ nnoremap <Leader>cc :Git commit -v<CR>
 nnoremap <Leader>xn :te<CR>a
 nnoremap <Leader>xx :sp\|te<CR>a
 nnoremap <Leader>xt :tabnew\|te<CR>a
+
+nnoremap <Leader>vv :Augument chat 
 
 nnoremap <Leader><Leader> gF
 
