@@ -1,3 +1,5 @@
+set rtp+=/opt/homebrew/opt/fzf
+
 call plug#begin()
 Plug '/usr/local/opt/fzf'
 Plug 'tpope/vim-sensible'
@@ -26,6 +28,7 @@ Plug 'slim-template/vim-slim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 " Plug 'editorconfig/editorconfig-vim'
+Plug 'augmentcode/augment.vim'
 call plug#end()
 
 " camelcasemotion
@@ -113,7 +116,7 @@ call plug#end()
 "-------------------------------------------------
 "-------------------------------------------------
 
-let $BASH_ENV = "$HOME/.bash_aliases"
+let $BASH_ENV = "$HOME/.zsh_aliases"
 let mapleader = " "
 
 set background=dark
@@ -169,7 +172,9 @@ let g:lightline = {
 "-------------------------------------------------
 
 let g:gitgutter_override_sign_column_highlight = 0
+"colorscheme vim
 colorscheme solarized
+set notermguicolors
 
 hi Search ctermfg=NONE ctermbg=NONE cterm=underline
 hi IncSearch ctermfg=NONE ctermbg=NONE cterm=underline
@@ -245,7 +250,7 @@ command! SpecOverview
   \| normal Gddgg
 
 function! PutInspectStatementForCurrentWordIntoClipboard()
-  let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.inspect }"' ."\n"
+  let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.class } #{ ' . expand('<cword>') . '.inspect }"' ."\n"
 endfunction
 
 function! SaveCurrentLocationInTodos()
@@ -456,19 +461,42 @@ vmap              su "zy/<C-R>z<CR>N
 tnoremap <C-b> <C-\><C-n>
 
 nmap     <Leader>  <NOP>
+
 nnoremap <Leader>q <C-w>q
 nnoremap <Leader>w <C-w>w
 nnoremap <Leader>e <C-w>o
-nnoremap <Leader>h <C-w>h
+nnoremap <Leader>r q:?
+nmap     <Leader>t  <NOP>
+#                y
+#                u
+nmap     <Leader>i :call PutInspectStatementForCurrentWordIntoClipboard()<CR>
+#                o
+#                p
+
+nnoremap <Leader>a <C-^>
+nmap     <Leader>s  <NOP>
+nnoremap <Leader>d :call GoToDefinition()<CR>
+nmap     <Leader>f  <NOP>
+nmap     <Leader>g  <NOP>
+nmap     <Leader>h  <NOP>
 nnoremap <Leader>j <C-w>j
 nnoremap <Leader>k <C-w>k
-nnoremap <Leader>l <C-w>l
-nnoremap <Leader>d :call GoToDefinition()<CR>
-nnoremap <Leader>a <C-^>
-nnoremap <Leader>r q:?
-nnoremap <Leader>z :qa<CR>
+nmap     <Leader>l oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ } 1"<ESC>h
 
-nmap     <Leader>g  <NOP>
+nnoremap <Leader>z :qa<CR>
+nmap     <Leader>x  <NOP>
+nmap     <Leader>c  <NOP>
+#                v
+#                b
+nmap     <Leader>n <NOP>
+nmap     <Leader>m <NOP>
+
+
+" nnoremap <Leader>h <C-w>h
+" nnoremap <Leader>l <C-w>l
+" nmap     <Leader>l oputs "----- DEBUGGERER -- #{ __FILE__.split("/").last.split(".").first } -- #{ __method__ } 1"<ESC>h
+" nnoremap <Leader>on :OpenNotes<CR>
+
 nnoremap <Leader>gu :GrepRaw -w <c-r><c-w><CR>
 nnoremap <Leader>gi :GrepRaw -w "\.<c-r><c-w>"<CR>
 nnoremap <Leader>gr :GrepRaw -w "<c-r><c-w>\."<CR>
@@ -479,51 +507,38 @@ nnoremap <Leader>gb :GrepRaw "binding.pry"<CR>
 nnoremap <Leader>gp :GrepRaw "DEBUGGERER"<CR>
 vnoremap <Leader>gu "zy:GrepRaw "<C-R>z"<CR>
 
-nmap     <Leader>f  <NOP>
 nnoremap <Leader>fa <C-^>
 nnoremap <Leader>ff :FZF<CR>
 nnoremap <Leader>fo :call BrowseOldFilesFromCwd()<CR>
 
-nmap     <Leader>i :call PutInspectStatementForCurrentWordIntoClipboard()<CR>
-" nmap     <Leader>l oputs "----- DEBUGGERER -- #{ __FILE__.split("/").last.split(".").first } -- #{ __method__ } 1"<ESC>h
-nmap     <Leader>l oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ } 1"<ESC>h
-
-nmap     <Leader>m <NOP>
 nnoremap <Leader>mq :MapNextToQuickFix<CR>
 
-nmap     <Leader>n <NOP>
 nnoremap <Leader>ne :sp /Users/tomaszwrobel/work/taskrabbit/v3/todos<CR>
 nnoremap <Leader>nf :e /Users/tomaszwrobel/work/taskrabbit/v3/todos<CR>
 nnoremap <Leader>ni :e ~/snapnote/inbox<CR>
 nnoremap <Leader>na :e ~/snapnote/inbox<CR>Go<Esc>o
 
-nnoremap <Leader>on :OpenNotes<CR>
-
-nmap     <Leader>t  <NOP>
 nnoremap <Leader>ta :TermTestAll<CR>
 nnoremap <Leader>tf :TermTestFile<CR>
 nnoremap <Leader>tt :TermTestSingle<CR>
 nnoremap <Leader>tr :TermTestRetry<CR>
 nnoremap <Leader>tv :TermTestView<CR>
 
-nmap     <Leader>h  <NOP>
 nmap     <Leader>hn <Plug>GitGutterNextHunk
 nmap     <Leader>hN <Plug>GitGutterPrevHunk
 nnoremap <Leader>hf gg:GitGutterNextHunk<CR>zz:MapNextToGitGutterHunk<CR>
 nnoremap <Leader>hg :Ghunks<CR>
 
-nmap     <Leader>s  <NOP>
 nmap     <Leader>sh <Plug>(GitGutterStageHunk)
 nmap     <Leader>sf :Gwrite<CR>
 nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
 nnoremap <Leader>sw :set wrap!<CR>
 nnoremap <Leader>sn :set number!<CR>
 
-nmap     <Leader>c  <NOP>
-nnoremap <Leader>cf :Gwrite\|Gcommit -v<CR>
-nnoremap <Leader>ca :Gcd .<CR>:silent ! git add .<CR>:cd -<CR>:Gcommit -v<CR>
-nnoremap <Leader>ch :GitGutterStageHunk<CR>:Gcommit -v<CR>
-nnoremap <Leader>cc :Gcommit -v<CR>
+nnoremap <Leader>cf :Gwrite\|Git commit -v<CR>
+nnoremap <Leader>ca :Gcd .<CR>:silent ! git add .<CR>:cd -<CR>:Git commit -v<CR>
+nnoremap <Leader>ch :GitGutterStageHunk<CR>:Git commit -v<CR>
+nnoremap <Leader>cc :Git commit -v<CR>
 
 nnoremap <Leader>xn :te<CR>a
 nnoremap <Leader>xx :sp\|te<CR>a
@@ -605,3 +620,6 @@ function! CdIntoGem()
 
     execute 'cd ' . first_two_components
 endfunction
+
+let g:augment_workspace_folders = ['/Users/tomaszwrobel/work/taskrabbit/tr_infrastructure/terraform/webhook_forwarder']
+
