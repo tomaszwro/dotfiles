@@ -145,6 +145,7 @@ set foldlevelstart=10       " Open most folds by default
 set foldnestmax=10          " 10 nested fold max
 set foldmethod=indent       " Fold based on indent level
 set mouse=a                 " Enable vim mouse scrolling while in tmux
+set nomodeline
 
 "-------------------------------------------------
 "-------------------------------------------------
