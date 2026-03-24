@@ -1,6 +1,7 @@
 set rtp+=/opt/homebrew/opt/fzf
 
 call plug#begin()
+Plug 'augmentcode/augment.vim'
 Plug '/usr/local/opt/fzf'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
@@ -28,7 +29,6 @@ Plug 'slim-template/vim-slim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 " Plug 'editorconfig/editorconfig-vim'
-Plug 'augmentcode/augment.vim'
 call plug#end()
 
 " camelcasemotion
@@ -188,6 +188,7 @@ hi SignColumn ctermbg=bg
 "-------------------------------------------------
 
 command! -nargs=+ GrepRaw cex system('ag --column --hidden --ignore .git --ignore \*.rbi <args>')
+command! -nargs=+ GrepRuby cex system('ag --column --ruby <args>')
 command! -nargs=+ G GrepRaw <args>
 
 " vimscript escapes ' => '' and | to \|
@@ -251,13 +252,58 @@ command! SpecOverview
   \| normal Gddgg
 
 function! PutInspectStatementForCurrentWordIntoClipboard()
-  let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.class } #{ ' . expand('<cword>') . '.inspect }"' ."\n"
+  let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.class } #{ ' . expand('<cword>') . '.pretty_inspect }"' ."\n"
 endfunction
 
 function! SaveCurrentLocationInTodos()
   let @+ = expand("%") . ':' . line('.') . "\n"
-  sp /Users/tomaszwrobel/work/taskrabbit/v3/todos
+  "sp /Users/tomaszwrobel/work/taskrabbit/v3/todos
+  call OpenMostRecentFileFromScratchpads()
   normal Gp
+endfunction
+
+function! RunShellCommandInCurrentLine()
+  " execute 'silent !' . getline('.')
+  execute '!' . getline('.')
+endfunction
+
+"function! OpenTimeEntries()
+"  e ~/snapnote/0000_time_entries.md
+"  normal gg}
+"endfunction
+
+function! OpenTimeEntries()
+  if bufwinnr("~/snapnote/0000_time_entries.md") != -1
+    " jump to the existing window
+    execute bufwinnr("~/snapnote/0000_time_entries.md") . "wincmd w"
+  else
+    " open in a new split
+    split ~/snapnote/0000_time_entries.md
+  endif
+  normal gg}
+endfunction
+
+"" TODO how to add if buffer already open?
+"function! AddTimeEntry()
+"  sp ~/snapnote/0000_time_entries.md
+"  normal gg}k
+"  execute 'r !date "+\%b \%d \%a \%H:\%M"'
+"  normal A -- 
+"endfunction
+
+function! AddTimeEntry()
+  call OpenTimeEntries()
+  normal k
+  execute 'r !date "+\%b \%d \%a \%H:\%M"'
+  normal A -- 
+endfunction
+
+" TODO: can be faster with non-shell thing?
+" TODO: reuse in AddTimeEntry?
+function! InsertTimestamp()
+  execute 'r ! date "+\%-m/\%-d \%H:\%M"'
+  normal I### 
+  normal A ###
 endfunction
 
 function! BrowseOldFilesFromCwd()
@@ -287,7 +333,17 @@ function! OpenOldestFileFromCwd()
   endfor
 endfunction
 
-command! OpenNotes
+function! OpenMostRecentFileFromScratchpads()
+  let scratchpads_dir = '/Users/tomaszwrobel/snapnote/current'
+  for file in v:oldfiles
+    if match(file, scratchpads_dir) == 0
+      execute "split " . file
+      break
+    endif
+  endfor
+endfunction
+
+command! Xsnapnote
   \  cd ~/snapnote
   \| call OpenOldestFileFromCwd()
 
@@ -323,9 +379,10 @@ function! TermTestWindow(test_command)
   wincmd p
 endfunction
 
-command! TermTestAll         call TermTest("echo Running... && be rspec && say gra || say nie gra")
-command! TermTestFile        call TermTest("echo Running... && be rspec " . @% . " && say gra || say nie gra")
-command! TermTestSingle      call TermTest("echo Running... && be rspec " . @% . ":" . line('.') . " && say gra || say nie gra")
+command! TermTestAll         call TermTest("echo Running... && be rspec && say -v Zosia działa || say -v Zosia nie działa")
+command! TermTestFile        call TermTest("echo Running... && be rspec -fd " . @% . " && say -v Zosia działa || say -v Zosia nie działa")
+"command! TermTestFile        call TermTest("echo Running... && npm test " . @% . " && say -v Zosia działa || say -v Zosia nie działa")
+command! TermTestSingle      call TermTest("echo Running... && be rspec -fd " . @% . ":" . line('.') . " && say -v Zosia działa || say -v Zosia nie działa")
 command! TermTestRetry       call TermTest(g:TermTest_last_test)
 command! TermTestView        exec 'buf ' . g:TermTest_last_buffer
 
@@ -383,7 +440,10 @@ inoremap <S-Tab> <C-p>
 
 function! GoToDefinition()
   if search('\<def ' . expand("<cword>") . '\>', 's') == 0
-    execute 'GrepRaw -w "(def \|class \|module )' . expand("<cword>") . '"'
+    " that's why it was broken such a long time
+    "execute 'GrepRaw -w "(def \|class \|module )' . expand("<cword>") . '"'
+    execute 'GrepRuby -w "(def |class |module )' . expand("<cword>") . '"'
+    " or do it sequentially? first def, then class, then module? esp with further tweaks
     if len(getqflist()) > 1
       copen
       wincmd w
@@ -413,6 +473,8 @@ command! MapNextToGitGutterHunk
   \  nnoremap n :GitGutterNextHunk<CR>zz
   \| nnoremap N :GitGutterPrevHunk<CR>zz
 
+command! DoubleQuotize :%s/\'/\"/g
+
 augroup my_vimrc_map_next_to_quick_fix
   autocmd!
   autocmd QuickFixCmdPost * MapNextToQuickFix
@@ -432,6 +494,7 @@ nnoremap <C-d> 15j
 nnoremap <C-u> 15k
 
 cnoremap <expr> %% expand('%:h').'/'
+cnoremap <expr> %! expand('%')
 
 nnoremap <silent> <Esc> <Esc>:nohl<CR>
 
@@ -499,12 +562,15 @@ nmap     <Leader>m <NOP>
 " nnoremap <Leader>on :OpenNotes<CR>
 
 nnoremap <Leader>gu :GrepRaw -w <c-r><c-w><CR>
+"nnoremap <Leader>gu :GrepRuby -w <c-r><c-w><CR>
+" what were these about?
 nnoremap <Leader>gi :GrepRaw -w "\.<c-r><c-w>"<CR>
 nnoremap <Leader>gr :GrepRaw -w "<c-r><c-w>\."<CR>
 nnoremap <Leader>gh :Ghunks<CR>
 nnoremap <Leader>gd :Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>
 nnoremap <Leader>gs :exec '!subl -w ' . expand('%') . ':' . line('.') . ':' . col('.')<CR><CR>
-nnoremap <Leader>gb :GrepRaw "binding.pry"<CR>
+nnoremap <Leader>gv :exec '!code -g ' . expand('%') . ':' . line('.') . ':' . col('.')<CR><CR>
+nnoremap <Leader>gb :GrepRaw "binding.irb"<CR>
 nnoremap <Leader>gp :GrepRaw "DEBUGGERER"<CR>
 vnoremap <Leader>gu "zy:GrepRaw "<C-R>z"<CR>
 
@@ -514,8 +580,8 @@ nnoremap <Leader>fo :call BrowseOldFilesFromCwd()<CR>
 
 nnoremap <Leader>mq :MapNextToQuickFix<CR>
 
-nnoremap <Leader>ne :sp /Users/tomaszwrobel/work/taskrabbit/v3/todos<CR>
-nnoremap <Leader>nf :e /Users/tomaszwrobel/work/taskrabbit/v3/todos<CR>
+nnoremap <Leader>ne :call OpenMostRecentFileFromScratchpads()<CR>
+nnoremap <Leader>nf :call OpenMostRecentFileFromScratchpads()<CR><C-w>o
 nnoremap <Leader>ni :e ~/snapnote/inbox<CR>
 nnoremap <Leader>na :e ~/snapnote/inbox<CR>Go<Esc>o
 
@@ -524,6 +590,7 @@ nnoremap <Leader>tf :TermTestFile<CR>
 nnoremap <Leader>tt :TermTestSingle<CR>
 nnoremap <Leader>tr :TermTestRetry<CR>
 nnoremap <Leader>tv :TermTestView<CR>
+nnoremap <Leader>te :call AddTimeEntry()<CR>A
 
 nmap     <Leader>hn <Plug>GitGutterNextHunk
 nmap     <Leader>hN <Plug>GitGutterPrevHunk
@@ -545,7 +612,14 @@ nnoremap <Leader>xn :te<CR>a
 nnoremap <Leader>xx :sp\|te<CR>a
 nnoremap <Leader>xt :tabnew\|te<CR>a
 
-nnoremap <Leader>vv :Augument chat 
+nnoremap <Leader>vc :Augment chat 
+nnoremap <Leader>vd :let g:augment_disable_completions = v:true<CR>
+nnoremap <Leader>ve :let g:augment_disable_completions = v:false<CR>
+nnoremap <Leader>vv :call OpenTimeEntries()><CR>
+nnoremap <Leader>va :call AddTimeEntry()<CR>A
+nnoremap <Leader>vi :call InsertTimestamp()<CR>
+nnoremap <Leader>vx :Xsnapnote<CR>
+nnoremap <Leader>vr :call RunShellCommandInCurrentLine()<CR>
 
 nnoremap <Leader><Leader> gF
 
@@ -586,13 +660,26 @@ nmap vis jvii
 nmap vas jvai
 " nmap vas jvaioj
 
-nnoremap tm I☐ <Esc>
-nnoremap tn o☐ 
-nnoremap to o☐ 
-nnoremap td ^r☑
-nnoremap tt ^r☑
-nnoremap tu ^r☐
-nnoremap tr ^r☒
+" ✅ hello
+" ☑️ hello
+" 🔲 hello
+" ✔️ hello
+" ✔︎ hello
+" ✓ hello
+" ☐ hello
+" ◻️ hello
+" ⬜ hello
+" ❌ ✖️ ✕ ✖︎
+
+nnoremap tm ^c2l- ☑️ <Esc>
+nnoremap to o- ☑️ 
+nnoremap td ^llr✅
+nnoremap tu ^llr☑️
+nnoremap tr ^llr✖️
+nnoremap tp ^lla❗<Esc>
+nnoremap tl ^lla⚡️<Esc>
+nnoremap ti A❗<Esc>
+nnoremap tq A❔<Esc>
 
 nnoremap j gj
 nnoremap k gk
@@ -624,5 +711,15 @@ function! CdIntoGem()
     execute 'cd ' . first_two_components
 endfunction
 
-let g:augment_workspace_folders = ['/Users/tomaszwrobel/work/taskrabbit/tr_infrastructure/terraform/webhook_forwarder']
+autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
+"autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
+
+"let g:augment_workspace_folders = ['/Users/tomaszwrobel/work/taskrabbit/tr_infrastructure/terraform/webhook_forwarder']
+"let g:augment_workspace_folders = ['/Users/tomaszwrobel/work/taskrabbit/hubot']
+"let g:augment_workspace_folders = ['/Users/tomaszwrobel/work/taskrabbit/tr_client']
+let g:augment_workspace_folders = ['/Users/tomaszwrobel/work/taskrabbit/v3']
+
+"let g:augment_disable_completions = v:true
 
