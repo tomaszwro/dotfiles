@@ -255,11 +255,35 @@ function! PutInspectStatementForCurrentWordIntoClipboard()
   let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.class } #{ ' . expand('<cword>') . '.pretty_inspect }"' ."\n"
 endfunction
 
+" better idea: instead of notes, rely on kind of clipboard stack, or perhaps that builtin thing for marked locations
 function! SaveCurrentLocationInTodos()
   let @+ = expand("%") . ':' . line('.') . "\n"
-  "sp /Users/tomaszwrobel/work/taskrabbit/v3/todos
   call OpenMostRecentFileFromScratchpads()
   normal Gp
+endfunction
+
+function! LastNChars(str, n)
+  return "..." . strpart(a:str, max([0, strlen(a:str) - a:n]))
+endfunction
+
+function! CopyFilePathAbsolute()
+  let @+ = expand('%:p')
+  echo "Copied: " . LastNChars(@+, 120)
+endfunction
+
+function! CopyFilePath()
+  let @+ = expand('%:.')
+  echo "Copied: " . LastNChars(@+, 120)
+endfunction
+
+function! CopyFilePathWithLine()
+  let @+ = expand("%:.") . ':' . line('.')
+  echo "Copied: " . LastNChars(@+, 120)
+endfunction
+
+function! CopyFilePathWithLineAndColumn()
+  let @+ = expand("%:.") . ':' . line('.') . ':' . col('.')
+  echo "Copied: " . LastNChars(@+, 120)
 endfunction
 
 function! RunShellCommandInCurrentLine()
@@ -325,8 +349,9 @@ endfunction
 
 function! OpenOldestFileFromCwd()
   let current_dir = getcwd() . '/'
+  let scratchpads_dir = '/Users/tomaszwrobel/snapnote/current'
   for file in v:oldfiles
-    if match(file, current_dir) == 0 && !(file =~ '\.git/COMMIT_EDITMSG$')
+    if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
       execute "edit " . file
       break
     endif
@@ -607,6 +632,8 @@ nnoremap <Leader>cf :Gwrite\|Git commit -v<CR>
 nnoremap <Leader>ca :Gcd .<CR>:silent ! git add .<CR>:cd -<CR>:Git commit -v<CR>
 nnoremap <Leader>ch :GitGutterStageHunk<CR>:Git commit -v<CR>
 nnoremap <Leader>cc :Git commit -v<CR>
+nnoremap <Leader>cp :call CopyFilePath()<CR>
+nnoremap <Leader>cl :call CopyFilePathWithLine()<CR>
 
 nnoremap <Leader>xn :te<CR>a
 nnoremap <Leader>xx :sp\|te<CR>a
@@ -677,9 +704,9 @@ nnoremap td ^llr✅
 nnoremap tu ^llr☑️
 nnoremap tr ^llr✖️
 nnoremap tp ^lla❗<Esc>
-nnoremap tl ^lla⚡️<Esc>
 nnoremap ti A❗<Esc>
 nnoremap tq A❔<Esc>
+nnoremap tl A⚡️<Esc>
 
 nnoremap j gj
 nnoremap k gk
@@ -722,4 +749,3 @@ autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
 let g:augment_workspace_folders = ['/Users/tomaszwrobel/work/taskrabbit/v3']
 
 "let g:augment_disable_completions = v:true
-
