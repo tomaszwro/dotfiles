@@ -98,48 +98,4 @@ hi SignColumn ctermbg=bg
 "-------------------------------------------------
 "-------------------------------------------------
 
-augroup my_vimrc
-
-  autocmd!
-
-  " This sets up an auto command that fires after any filetype-specific plugin;
-  " the command removes the three flags from the 'formatoptions' option that
-  " control the automatic insertion of comments. With this in your vimrc, a
-  " comment character will not be automatically inserted in the next line under
-  " any situation.
-  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
-  " From :h last-position-jump
-  " This autocommand jumps to the last known position in a file
-  " just after opening it, if the '" mark is set: >
-  autocmd BufReadPost *
-    \   if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
-    \ |   exe "normal! g`\""
-    \ | endif
-
-  " From: https://github.com/junegunn/fzf/blob/master/README-VIM.md#hide-statusline
-  autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
-augroup end
-
-"-------------------------------------------------
-"-------------------------------------------------
-"-------------------------------------------------
-
-" Stolen from (slightly modified):
-" https://github.com/thoughtbot/dotfiles/blob/21055dff633feea87bc9526efb5b2fcc04bc025e/vimrc#L101
-
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<Tab>"
-    else
-        return "\<C-n>"
-    endif
-endfunction
-inoremap <Tab> <C-r>=InsertTabWrapper()<CR>
-inoremap <S-Tab> <C-p>
-
 lua require("init")
