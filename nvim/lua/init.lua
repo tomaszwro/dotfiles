@@ -24,7 +24,6 @@ local function lru_note_path()
       return file
     end
   end
-
   return nil
 end
 
@@ -39,10 +38,18 @@ vim.keymap.set("n", "<leader>nf", function() vim.cmd.edit(vim.fn.fnameescape(lru
 -- endfunction
 -- nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
 
--- this can be used to migrate the most⚡️❔
--- vim.cmd([[
---   augroup my.group
---     autocmd!
---     autocmd FileType c setlocal cindent
---   augroup END
--- ]])
+vim.cmd([[
+  nnoremap ff :FZF<CR>
+  nnoremap fs :FilesModified<CR>
+
+  nmap vai vaI
+  nmap vis jvii
+  nmap vas jvai
+
+  nnoremap j gj
+  nnoremap k gk
+
+  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
+  "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
+]])

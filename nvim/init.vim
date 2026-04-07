@@ -447,9 +447,6 @@ nnoremap <Leader>vr :call RunShellCommandInCurrentLine()<CR>
 
 nnoremap <Leader><Leader> gF
 
-nnoremap ff :FZF<CR>
-nnoremap fs :FilesModified<CR>
-
 augroup MyTermMappings
   autocmd!
   autocmd TermOpen * nnoremap <buffer> o    gF:only<CR>
@@ -479,15 +476,5 @@ augroup END
 "vmap fcp []
 "vmap fcf gg]]
 
-nmap vai vaI
-nmap vis jvii
-nmap vas jvai
-
-nnoremap j gj
-nnoremap k gk
-
-autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
-"autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
 
 lua require("init")
