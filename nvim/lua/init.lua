@@ -36,6 +36,91 @@ vim.keymap.set("n", "<leader>nf", function() vim.cmd.edit(vim.fn.fnameescape(lru
 
 vim.cmd([[
 
+  command! -nargs=+ GrepRaw cex system('ag --column --hidden --ignore .git --ignore \*.rbi <args>')
+  command! -nargs=+ GrepRuby cex system('ag --column --ruby <args>')
+  command! -nargs=+ G GrepRaw <args>
+
+  " command! FilesModified call fzf#run(fzf#wrap({'source': 'git status -su | cut -c 4-'}))
+  " git status -su | awk '{print $2 " " $1}' | sort
+  command! FilesModified
+    \  enew
+    \| setlocal buftype=nofile
+    \| setlocal bufhidden=hide
+    \| setlocal noswapfile
+    \| execute '0read ! gss'
+    \| execute 'normal G"_ddgg'
+    \| execute 'nnoremap <silent> <buffer> <CR> gf<CR>'
+    \| execute 'nnoremap <silent> <buffer>    o gf<CR>'
+
+  function! PutInspectStatementForCurrentWordIntoClipboard()
+    let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.class } #{ ' . expand('<cword>') . '.pretty_inspect }"' ."\n"
+  endfunction
+
+  function! LastNChars(str, n)
+    return "..." . strpart(a:str, max([0, strlen(a:str) - a:n]))
+  endfunction
+
+  function! CopyFilePathAbsolute()
+    let @+ = expand('%:p')
+    echo "Copied: " . LastNChars(@+, 120)
+  endfunction
+
+  function! CopyFilePath()
+    let @+ = expand('%:.')
+    echo "Copied: " . LastNChars(@+, 120)
+  endfunction
+
+  function! CopyFilePathWithLine()
+    let @+ = expand("%:.") . ':' . line('.')
+    echo "Copied: " . LastNChars(@+, 120)
+  endfunction
+
+  function! CopyFilePathWithLineAndColumn()
+    let @+ = expand("%:.") . ':' . line('.') . ':' . col('.')
+    echo "Copied: " . LastNChars(@+, 120)
+  endfunction
+
+  function! RunShellCommandInCurrentLine()
+    " execute 'silent !' . getline('.')
+    execute '!' . getline('.')
+  endfunction
+
+  " TODO: can be faster with non-shell thing?
+  function! InsertTimestamp()
+    execute 'r ! date "+\%-m/\%-d \%H:\%M"'
+    normal I### 
+    normal A ###
+  endfunction
+
+  function! BrowseOldFilesFromCwd()
+    let current_dir = getcwd() . '/'
+    new
+    setlocal buftype=nofile
+    setlocal bufhidden=hide
+    setlocal noswapfile
+    for file in v:oldfiles
+      if match(file, current_dir) == 0 && !(file =~ '\.git/COMMIT_EDITMSG$')
+        put =strpart(file, strlen(getcwd()) + 1)
+      endif
+    endfor
+    normal ggdd
+    setlocal nomodifiable
+    nnoremap <buffer> <CR> gf:only<CR>
+    nnoremap <buffer>    o gf:only<CR>
+  endfunction
+
+  function! OpenOldestFileFromCwd()
+    let current_dir = getcwd() . '/'
+    let scratchpads_dir = '/Users/tomaszwrobel/snapnote/current'
+    for file in v:oldfiles
+      if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
+        execute "edit " . file
+        break
+      endif
+    endfor
+  endfunction
+
+
   function! TermTest(test_command)
     " call TermTestBuffer(a:test_command)
     call TermTestWindow(a:test_command)
