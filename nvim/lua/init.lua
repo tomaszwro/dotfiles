@@ -35,6 +35,57 @@ vim.keymap.set("n", "<leader>nf", function() vim.cmd.edit(vim.fn.fnameescape(lru
 -- nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
 
 vim.cmd([[
+
+  function! TermTest(test_command)
+    " call TermTestBuffer(a:test_command)
+    call TermTestWindow(a:test_command)
+  endfunction
+
+  function! TermTestBuffer(test_command)
+    silent update
+    execute "terminal " . a:test_command
+    let g:TermTest_last_test = a:test_command
+    let g:TermTest_last_buffer = bufnr('%')
+    silent b#
+    echo "Running " . a:test_command
+  endfunction
+
+  function! TermTestWindow(test_command)
+    silent update
+    if winnr('$') == 1
+      20sp
+    else
+      wincmd w
+    endif
+    execute "terminal " . a:test_command
+    execute "normal G"
+    let g:TermTest_last_test = a:test_command
+    let g:TermTest_last_buffer = bufnr('%')
+    wincmd p
+  endfunction
+
+  command! TermTestAll         call TermTest("echo Running... && be rspec && say -v Zosia działa || say -v Zosia nie działa")
+  command! TermTestFile        call TermTest("echo Running... && be rspec -fd " . @% . " && say -v Zosia działa || say -v Zosia nie działa")
+  "command! TermTestFile        call TermTest("echo Running... && npm test " . @% . " && say -v Zosia działa || say -v Zosia nie działa")
+  command! TermTestSingle      call TermTest("echo Running... && be rspec -fd " . @% . ":" . line('.') . " && say -v Zosia działa || say -v Zosia nie działa")
+  command! TermTestRetry       call TermTest(g:TermTest_last_test)
+  command! TermTestView        exec 'buf ' . g:TermTest_last_buffer
+
+  function! GoToDefinition()
+    if search('\<def ' . expand("<cword>") . '\>', 's') == 0
+      " that's why it was broken such a long time
+      "execute 'GrepRaw -w "(def \|class \|module )' . expand("<cword>") . '"'
+      execute 'GrepRuby -w "(def |class |module )' . expand("<cword>") . '"'
+      " or do it sequentially? first def, then class, then module? esp with further tweaks
+      if len(getqflist()) > 1
+        copen
+        wincmd w
+      endif
+    else
+      normal zz
+    endif
+  endfunction
+
   nnoremap <silent> § :call search('\<')<CR>
   nnoremap <silent> £ :call search('\<', 'b')<CR>
 
@@ -210,6 +261,7 @@ vim.cmd([[
   autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
   "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
 ]])
+
 -- nmap fmn ]m
 -- nmap fme ]M
 -- nmap fmb [m
