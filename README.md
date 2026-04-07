@@ -1,1 +1,12 @@
 # dotfiles
+
+## setup
+
+```
+ln -sf .gitconfig ~
+ln -sf .tmux.conf ~
+ln -sf .zprofile ~
+ln -sf .zsh_aliases ~
+ln -sf .zshenv ~
+ln -sf .zshrc ~
+```
