@@ -1,5 +1,3 @@
-" echom "hello from init.vim"
-
 set rtp+=/opt/homebrew/opt/fzf
 
 call plug#begin()
@@ -446,13 +444,6 @@ nnoremap <Leader>vx :Xsnapnote<CR>
 nnoremap <Leader>vr :call RunShellCommandInCurrentLine()<CR>
 
 nnoremap <Leader><Leader> gF
-
-augroup MyTermMappings
-  autocmd!
-  autocmd TermOpen * nnoremap <buffer> o    gF:only<CR>
-  autocmd TermOpen * nnoremap <buffer> <CR> gF:only<CR>
-  autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
-augroup END
 
 "nmap fmn ]m
 "nmap fme ]M
