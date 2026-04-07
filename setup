@@ -1,7 +1,6 @@
-#!/bin/bash
-
-ln -s ~/dotfiles/bash_profile ~/.bash_profile
-ln -s ~/dotfiles/bashrc       ~/.bashrc
-ln -s ~/dotfiles/bash_aliases ~/.bash_aliases
-ln -s ~/dotfiles/vimrc        ~/.vimrc
-ln -s ~/dotfiles/tmux.conf    ~/.tmux.conf
+ln -sf .gitconfig ~
+ln -sf .tmux.conf ~
+ln -sf .zprofile ~
+ln -sf .zsh_aliases ~
+ln -sf .zshenv ~
+ln -sf .zshrc ~

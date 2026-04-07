@@ -1,0 +1,10 @@
+# This is Git's per-user configuration file.
+[core]
+	excludesfile = ~/.gitignore_global
+[user]
+	name = Tomasz Wróbel
+	email = tomekwr@gmail.com
+[diff]
+	noprefix = true
+[merge]
+	conflictstyle = diff3
