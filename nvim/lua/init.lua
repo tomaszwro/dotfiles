@@ -107,7 +107,7 @@ vim.cmd([[
     \| setlocal buftype=nofile
     \| setlocal bufhidden=hide
     \| setlocal noswapfile
-    \| execute '0read ! git_status_for_current_branch'
+    \| execute '0read ! g_current_branch_status'
     \| execute 'normal G"_ddgg'
     \| execute 'nnoremap <silent> <buffer> <CR> gf<CR>'
     \| execute 'nnoremap <silent> <buffer>    o gf<CR>'
