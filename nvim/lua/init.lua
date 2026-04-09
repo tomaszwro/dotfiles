@@ -4,27 +4,17 @@ vim.g.augment_workspace_folders = {
 }
 
 local note_dir = "/Users/tomaszwrobel/snapnote/current"
+local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
+local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
 
-local function lru_note_path()
-  for _, file in ipairs(vim.v.oldfiles) do
-    if file:match("^" .. vim.pesc(note_dir)) then
-      return file
-    end
-  end
-  return nil
-end
-
-vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
-vim.keymap.set("n", "to", "o- ☑️ ")
-vim.keymap.set("n", "td", "^llr✅")
-vim.keymap.set("n", "tu", "^llr☑️")
-vim.keymap.set("n", "tr", "^llr✖️")
-vim.keymap.set("n", "tp", "^lla❗<Esc>")
-vim.keymap.set("n", "ti", "A❗<Esc>")
-vim.keymap.set("n", "tq", "A❔<Esc>")
-vim.keymap.set("n", "tl", "A⚡️<Esc>")
-vim.keymap.set("n", "<leader>ne", function() vim.cmd.split(vim.fn.fnameescape(lru_note_path())) end)
-vim.keymap.set("n", "<leader>nf", function() vim.cmd.edit(vim.fn.fnameescape(lru_note_path())) end)
+-- local function lru_note_path()
+--   for _, file in ipairs(vim.v.oldfiles) do
+--     if file:match("^" .. vim.pesc(note_dir)) then
+--       return file
+--     end
+--   end
+--   return nil
+-- end
 
 -- " better idea: instead of notes, rely on kind of clipboard stack, or perhaps that builtin thing for marked locations
 -- function! SaveCurrentLocationInTodos()
@@ -112,6 +102,16 @@ vim.cmd([[
     \| execute 'nnoremap <silent> <buffer> <CR> gf<CR>'
     \| execute 'nnoremap <silent> <buffer>    o gf<CR>'
 
+  command! FilesModifiedInBranch
+    \  enew
+    \| setlocal buftype=nofile
+    \| setlocal bufhidden=hide
+    \| setlocal noswapfile
+    \| execute '0read ! git_status_for_current_branch'
+    \| execute 'normal G"_ddgg'
+    \| execute 'nnoremap <silent> <buffer> <CR> gf<CR>'
+    \| execute 'nnoremap <silent> <buffer>    o gf<CR>'
+
   function! PutInspectStatementForCurrentWordIntoClipboard()
     let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.class } #{ ' . expand('<cword>') . '.pretty_inspect }"' ."\n"
   endfunction
@@ -171,6 +171,7 @@ vim.cmd([[
 
   function! OpenOldestFileFromCwd()
     let current_dir = getcwd() . '/'
+    " TODO: use note_dir once converted to lua
     let scratchpads_dir = '/Users/tomaszwrobel/snapnote/current'
     for file in v:oldfiles
       if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
@@ -379,7 +380,6 @@ vim.cmd([[
   nnoremap <Leader>vd :let g:augment_disable_completions = v:true<CR>
   nnoremap <Leader>ve :let g:augment_disable_completions = v:false<CR>
   nnoremap <Leader>vi :call InsertTimestamp()<CR>
-  nnoremap <Leader>vx :Xsnapnote<CR>
   nnoremap <Leader>vr :call RunShellCommandInCurrentLine()<CR>
 
   nnoremap <Leader><Leader> gF
@@ -448,3 +448,20 @@ vim.cmd([[
 -- vmap fcb [[
 -- vmap fcp []
 -- vmap fcf gg]]
+
+vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
+vim.keymap.set("n", "to", "o- ☑️ ")
+vim.keymap.set("n", "td", "^llr✅")
+vim.keymap.set("n", "tu", "^llr☑️")
+vim.keymap.set("n", "tr", "^llr✖️")
+vim.keymap.set("n", "tp", "^lla❗<Esc>")
+vim.keymap.set("n", "ti", "A❗<Esc>")
+vim.keymap.set("n", "tq", "A❔<Esc>")
+vim.keymap.set("n", "tl", "A⚡️<Esc>")
+vim.keymap.set("n", "<leader>ne", function() vim.cmd.split(vim.fn.fnameescape(work_file_path)) end)
+vim.keymap.set("n", "<leader>nf", function() vim.cmd.edit(vim.fn.fnameescape(work_file_path)) end)
+vim.keymap.set("n", "fw", function() vim.cmd.split(vim.fn.fnameescape(work_file_path)) end)
+vim.keymap.set("n", "fW", function() vim.cmd.edit(vim.fn.fnameescape(work_file_path)) end)
+vim.keymap.set("n", "fp", function() vim.cmd.split(vim.fn.fnameescape(priv_file_path)) end)
+vim.keymap.set("n", "fP", function() vim.cmd.edit(vim.fn.fnameescape(priv_file_path)) end)
+
