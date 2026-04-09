@@ -36,7 +36,7 @@ vim.keymap.set("n", "<leader>nf", function() vim.cmd.edit(vim.fn.fnameescape(lru
 
 vim.cmd([[
 
-  command! -nargs=+ GrepRaw cex system('ag --column --hidden --ignore .git --ignore \*.rbi <args>')
+  command! -nargs=+ GrepRaw cex system('ag --column --hidden --ignore .git --ignore \*.rbi --ignore \*.log <args>')
   command! -nargs=+ GrepRuby cex system('ag --column --ruby <args>')
   command! -nargs=+ G GrepRaw <args>
 

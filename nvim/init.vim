@@ -1,7 +1,7 @@
 set rtp+=/opt/homebrew/opt/fzf
 
 call plug#begin()
-" Plug 'augmentcode/augment.vim'
+Plug 'augmentcode/augment.vim'
 Plug '/usr/local/opt/fzf'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'

@@ -27,6 +27,11 @@ function git_diff_raw_all       {
   git_diff_raw_untracked  | sed 's/^/\.\.\. /'
 }
 
+function git_recent_branches { git branch --sort=-committerdate | head; }
+function git_commits_in_current_branch { git --no-pager log --color --oneline master..HEAD; }
+alias grb=git_recent_branches
+alias glb=git_commits_in_current_branch
+
 function gs   { git cherry -v; git status -su $*; }
 function gss  { git status -su | awk '{print $2 " " $1}' | sort; }
 function gd   { git_diff_raw_all $* | less -S; }
@@ -41,9 +46,9 @@ function gsa { git stash save --include-untracked $*; }
 function gsl { git stash list $*; }
 function gsh { git stash show -p $*; }
 function gsp { git stash pop $*; }
-function glc { git log -p --color $* | less -iRS +/^commit; }
+function glc { git log --color -p $* | less -iRS +/^commit; }
 function gcp { git cherry-pick $*; }
-function glo { git log --oneline $*; }
+function glo { git log --color --oneline $* | less -RS; }
 function gco { git checkout $*; }
 function gcb { git checkout -b $*; }
 function grh { git reset --hard $*; }
