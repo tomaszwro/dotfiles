@@ -1,5 +1,4 @@
 vim.cmd([[
-
   set rtp+=/opt/homebrew/opt/fzf
 
   call plug#begin()
@@ -27,11 +26,16 @@ vim.cmd([[
   Plug 'bkad/camelcasemotion'
   Plug 'svermeulen/vim-easyclip'
   Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
   call plug#end()
+]])
 
+vim.cmd([[
   let $BASH_ENV = "$HOME/.zsh_aliases"
   let mapleader = " "
+]])
 
+vim.cmd([[
   set background=dark
   set tabstop=2
   set softtabstop=2
@@ -59,7 +63,9 @@ vim.cmd([[
   set foldmethod=indent       " Fold based on indent level
   set mouse=a                 " Enable vim mouse scrolling while in tmux
   set nomodeline
+]])
 
+vim.cmd([[
   let g:ruby_indent_block_style = 'do'
   let g:ruby_indent_assignment_style = 'variable'
 
@@ -78,6 +84,9 @@ vim.cmd([[
     \ }
 
 
+]])
+
+vim.cmd([[
   let g:gitgutter_override_sign_column_highlight = 0
   "colorscheme vim
   colorscheme solarized
@@ -88,10 +97,15 @@ vim.cmd([[
   hi MatchParen ctermbg=NONE ctermfg=green cterm=NONE
   hi VertSplit ctermbg=0 ctermfg=0
   hi SignColumn ctermbg=bg
+]])
 
+vim.cmd([[
   command! -nargs=+ GrepRaw cex system('ag --column --hidden --ignore .git --ignore \*.rbi --ignore \*.log <args>')
   command! -nargs=+ GrepRuby cex system('ag --column --ruby <args>')
   command! -nargs=+ G GrepRaw <args>
+]])
+
+vim.cmd([[
 
   " command! FilesModified call fzf#run(fzf#wrap({'source': 'git status -su | cut -c 4-'}))
   " git status -su | awk '{print $2 " " $1}' | sort
@@ -114,7 +128,9 @@ vim.cmd([[
     \| execute 'normal G"_ddgg'
     \| execute 'nnoremap <silent> <buffer> <CR> gf<CR>'
     \| execute 'nnoremap <silent> <buffer>    o gf<CR>'
+]])
 
+vim.cmd([[
   function! PutInspectStatementForCurrentWordIntoClipboard()
     let @+ = 'puts "----- DEBUGGERER ' . expand('<cword>') . ' #{ ' . expand('<cword>') . '.class } #{ ' . expand('<cword>') . '.pretty_inspect }"' ."\n"
   endfunction
@@ -154,7 +170,9 @@ vim.cmd([[
     normal I### 
     normal A ###
   endfunction
+]])
 
+vim.cmd([[
   function! BrowseOldFilesFromCwd()
     let current_dir = getcwd() . '/'
     new
@@ -171,7 +189,9 @@ vim.cmd([[
     nnoremap <buffer> <CR> gf:only<CR>
     nnoremap <buffer>    o gf:only<CR>
   endfunction
+]])
 
+vim.cmd([[
   function! OpenOldestFileFromCwd()
     let current_dir = getcwd() . '/'
     " TODO: use note_dir once converted to lua
@@ -184,8 +204,9 @@ vim.cmd([[
       endif
     endfor
   endfunction
+]])
 
-
+vim.cmd([[
   function! TermTest(test_command)
     " call TermTestBuffer(a:test_command)
     call TermTestWindow(a:test_command)
@@ -220,7 +241,9 @@ vim.cmd([[
   command! TermTestSingle      call TermTest("echo Running... && be rspec -fd " . @% . ":" . line('.') . " && say -v Zosia działa || say -v Zosia nie działa")
   command! TermTestRetry       call TermTest(g:TermTest_last_test)
   command! TermTestView        exec 'buf ' . g:TermTest_last_buffer
+]])
 
+vim.cmd([[
   function! GoToDefinition()
     if search('\<def ' . expand("<cword>") . '\>', 's') == 0
       " that's why it was broken such a long time
@@ -235,10 +258,9 @@ vim.cmd([[
       normal zz
     endif
   endfunction
+]])
 
-  nnoremap <silent> § :call search('\<')<CR>
-  nnoremap <silent> £ :call search('\<', 'b')<CR>
-
+vim.cmd([[
   command! MapNextToQuickFix
     \  nnoremap n :cn<CR>zz
     \| nnoremap N :cp<CR>zz
@@ -259,6 +281,9 @@ vim.cmd([[
     autocmd QuickFixCmdPost * MapNextToQuickFix
   augroup end
 
+]])
+
+vim.cmd([[
   nnoremap /  :MapNextToDefault<CR>/
   nnoremap ?  :MapNextToDefault<CR>?
   nnoremap *  :MapNextToDefault<CR>*
@@ -388,7 +413,6 @@ vim.cmd([[
 
   nnoremap <Leader><Leader> gF
 
-
   nnoremap ff :FZF<CR>
   nnoremap fs :FilesModified<CR>
 
@@ -398,8 +422,9 @@ vim.cmd([[
 
   nnoremap j gj
   nnoremap k gk
+]])
 
-
+vim.cmd([[
   augroup my_vimrc
     autocmd!
 
@@ -436,15 +461,6 @@ local note_dir = "/Users/tomaszwrobel/snapnote/current"
 local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
 local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
 
--- local function lru_note_path()
---   for _, file in ipairs(vim.v.oldfiles) do
---     if file:match("^" .. vim.pesc(note_dir)) then
---       return file
---     end
---   end
---   return nil
--- end
-
 -- " better idea: instead of notes, rely on kind of clipboard stack, or perhaps that builtin thing for marked locations
 -- function! SaveCurrentLocationInTodos()
 --   let @+ = expand("%") . ':' . line('.') . "\n"
@@ -452,28 +468,6 @@ local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plat
 --   normal Gp
 -- endfunction
 -- nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
-
--- nmap fmn ]m
--- nmap fme ]M
--- nmap fmb [m
--- nmap fmp [M
--- nmap fmf gg]m
--- vmap fmn ]m
--- vmap fme ]M
--- vmap fmb [m
--- vmap fmp [M
--- vmap fmf gg]m
-
--- nmap fcn ]]
--- nmap fce ][
--- nmap fcb [[
--- nmap fcp []
--- nmap fcf gg]]
--- vmap fcn ]]
--- vmap fce ][
--- vmap fcb [[
--- vmap fcp []
--- vmap fcf gg]]
 
 vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
 vim.keymap.set("n", "to", "o- ☑️ ")
