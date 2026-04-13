@@ -1,30 +1,33 @@
-vim.g.augment_disable_completions = true
-vim.g.augment_workspace_folders = {
-  "/Users/tomaszwrobel/work/taskrabbit/v3",
-}
-
-local note_dir = "/Users/tomaszwrobel/snapnote/current"
-local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
-local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
-
--- local function lru_note_path()
---   for _, file in ipairs(vim.v.oldfiles) do
---     if file:match("^" .. vim.pesc(note_dir)) then
---       return file
---     end
---   end
---   return nil
--- end
-
--- " better idea: instead of notes, rely on kind of clipboard stack, or perhaps that builtin thing for marked locations
--- function! SaveCurrentLocationInTodos()
---   let @+ = expand("%") . ':' . line('.') . "\n"
---   call OpenMostRecentFileFromScratchpads()
---   normal Gp
--- endfunction
--- nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
-
 vim.cmd([[
+
+  set rtp+=/opt/homebrew/opt/fzf
+
+  call plug#begin()
+  " Plug 'augmentcode/augment.vim'
+  Plug '/usr/local/opt/fzf'
+  Plug 'tpope/vim-sensible'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-endwise'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-rsi'
+  Plug 'tpope/vim-eunuch'
+  Plug 'tpope/vim-vinegar'
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'itchyny/lightline.vim'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'michaeljsmith/vim-indent-object'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'kana/vim-textobj-user'
+  Plug 'kana/vim-textobj-entire'
+  Plug 'beloglazov/vim-textobj-quotes'
+  Plug 'bkad/camelcasemotion'
+  Plug 'svermeulen/vim-easyclip'
+  Plug 'AndrewRadev/splitjoin.vim'
+  call plug#end()
 
   let $BASH_ENV = "$HOME/.zsh_aliases"
   let mapleader = " "
@@ -174,7 +177,8 @@ vim.cmd([[
     " TODO: use note_dir once converted to lua
     let scratchpads_dir = '/Users/tomaszwrobel/snapnote/current'
     for file in v:oldfiles
-      if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
+      " if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
+      if (match(file, current_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
         execute "edit " . file
         break
       endif
@@ -422,10 +426,32 @@ vim.cmd([[
     autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
   augroup END
 
-  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 wrap linebreak
+  "breakindent showbreak textwidth=120 -- what these should do?
   autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
   "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
 ]])
+
+local note_dir = "/Users/tomaszwrobel/snapnote/current"
+local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
+local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
+
+-- local function lru_note_path()
+--   for _, file in ipairs(vim.v.oldfiles) do
+--     if file:match("^" .. vim.pesc(note_dir)) then
+--       return file
+--     end
+--   end
+--   return nil
+-- end
+
+-- " better idea: instead of notes, rely on kind of clipboard stack, or perhaps that builtin thing for marked locations
+-- function! SaveCurrentLocationInTodos()
+--   let @+ = expand("%") . ':' . line('.') . "\n"
+--   call OpenMostRecentFileFromScratchpads()
+--   normal Gp
+-- endfunction
+-- nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
 
 -- nmap fmn ]m
 -- nmap fme ]M
@@ -464,4 +490,10 @@ vim.keymap.set("n", "fw", function() vim.cmd.split(vim.fn.fnameescape(work_file_
 vim.keymap.set("n", "fW", function() vim.cmd.edit(vim.fn.fnameescape(work_file_path)) end)
 vim.keymap.set("n", "fp", function() vim.cmd.split(vim.fn.fnameescape(priv_file_path)) end)
 vim.keymap.set("n", "fP", function() vim.cmd.edit(vim.fn.fnameescape(priv_file_path)) end)
+vim.keymap.set("n", "fd", function() vim.cmd('bd') end)
+
+vim.g.augment_disable_completions = true
+vim.g.augment_workspace_folders = {
+  "/Users/tomaszwrobel/work/taskrabbit/v3",
+}
 

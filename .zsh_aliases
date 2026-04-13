@@ -30,7 +30,7 @@ function git_diff_raw_all       {
 function g_branches_recent { git branch --sort=-committerdate | head; }
 function g_current_branch_commits { git --no-pager log --color --oneline master..HEAD; }
 function g_current_branch_status { git --no-pager diff --name-status $(git merge-base HEAD master)..HEAD; }
-function g_current_branch_diff { git diff $(git merge-base HEAD master)..HEAD; }
+function g_current_branch_diff { git --no-pager diff $(git merge-base HEAD master)..HEAD; }
 
 function gs   { git cherry -v; git status -su $*; }
 function gss  { git status -su | awk '{print $2 " " $1}' | sort; }
