@@ -315,10 +315,6 @@ vim.cmd([[
     \  nnoremap n n
     \| nnoremap N N
 
-  command! MapNextToGitGutterHunk
-    \  nnoremap n :GitGutterNextHunk<CR>zz
-    \| nnoremap N :GitGutterPrevHunk<CR>zz
-
   command! DoubleQuotize :%s/\'/\"/g
 
   augroup my_vimrc_map_next_to_quick_fix
@@ -339,8 +335,8 @@ vim.cmd([[
   nmap     M <Plug>MoveMotionEndOfLinePlug
   nnoremap <silent> K i<CR><ESC>k:s/\s\+$//e<CR>:nohl<CR>j
 
-  nnoremap <C-d> 15j
-  nnoremap <C-u> 15k
+  "nnoremap <C-d> 15j
+  "nnoremap <C-u> 15k
 
   cnoremap <expr> %% expand('%:h').'/'
   cnoremap <expr> %! expand('%')
@@ -349,9 +345,6 @@ vim.cmd([[
 
   " From: http://vim.wikia.com/wiki/Selecting_your_pasted_text
   nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-
-  " From: http://vim.wikia.com/wiki/Insert_a_single_character
-  nnoremap <silent> \ :exec "normal i".nr2char(getchar())."\e"<CR>
 
   map <silent> gw <Plug>CamelCaseMotion_w
   map <silent> gb <Plug>CamelCaseMotion_b
@@ -392,8 +385,8 @@ vim.cmd([[
   nmap     <Leader>f  <NOP>
   nmap     <Leader>g  <NOP>
   nmap     <Leader>h  <NOP>
-  nnoremap <Leader>j <C-w>j
-  nnoremap <Leader>k <C-w>k
+  nnoremap <Leader>j <NOP>
+  nnoremap <Leader>k <NOP>
   nmap     <Leader>l oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ } 1"<ESC>h
 
   nnoremap <Leader>z :qa<CR>
@@ -405,20 +398,11 @@ vim.cmd([[
   nmap     <Leader>m <NOP>
 
   nnoremap <Leader>gu :GrepRaw -w <c-r><c-w><CR>
-  "nnoremap <Leader>gu :GrepRuby -w <c-r><c-w><CR>
-  " what were these about?
-  nnoremap <Leader>gi :GrepRaw -w "\.<c-r><c-w>"<CR>
-  nnoremap <Leader>gr :GrepRaw -w "<c-r><c-w>\."<CR>
-  nnoremap <Leader>gh :Ghunks<CR>
   nnoremap <Leader>gd :Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>
   nnoremap <Leader>gs :exec '!subl -w ' . expand('%') . ':' . line('.') . ':' . col('.')<CR><CR>
   nnoremap <Leader>gv :exec '!code -g ' . expand('%') . ':' . line('.') . ':' . col('.')<CR><CR>
-  nnoremap <Leader>gb :GrepRaw "binding.irb"<CR>
-  nnoremap <Leader>gp :GrepRaw "DEBUGGERER"<CR>
   vnoremap <Leader>gu "zy:GrepRaw "<C-R>z"<CR>
 
-  nnoremap <Leader>fa <C-^>
-  nnoremap <Leader>ff :FZF<CR>
   nnoremap <Leader>fo :call BrowseOldFilesFromCwd()<CR>
 
   nnoremap <Leader>mq :MapNextToQuickFix<CR>
@@ -429,15 +413,9 @@ vim.cmd([[
   nnoremap <Leader>tr :TermTestRetry<CR>
   nnoremap <Leader>tv :TermTestView<CR>
 
-  nmap     <Leader>hn <Plug>GitGutterNextHunk
-  nmap     <Leader>hN <Plug>GitGutterPrevHunk
-  nnoremap <Leader>hf gg:GitGutterNextHunk<CR>zz:MapNextToGitGutterHunk<CR>
-  nnoremap <Leader>hg :Ghunks<CR>
-
   nmap     <Leader>sh <Plug>(GitGutterStageHunk)
   nmap     <Leader>sf :Gwrite<CR>
   nnoremap <Leader>sw :set wrap!<CR>
-  nnoremap <Leader>sn :set number!<CR>
 
   nnoremap <Leader>cf :Gwrite\|Git commit -v<CR>
   nnoremap <Leader>ca :Gcd .<CR>:silent ! git add .<CR>:cd -<CR>:Git commit -v<CR>
@@ -446,9 +424,7 @@ vim.cmd([[
   nnoremap <Leader>cp :call CopyFilePath()<CR>
   nnoremap <Leader>cl :call CopyFilePathWithLine()<CR>
 
-  nnoremap <Leader>xn :te<CR>a
-  nnoremap <Leader>xx :sp\|te<CR>a
-  nnoremap <Leader>xt :tabnew\|te<CR>a
+  nnoremap <Leader>xx :sp\|term<CR>a
 
   nnoremap <Leader>vc :Augment chat 
   nnoremap <Leader>vd :let g:augment_disable_completions = v:true<CR>
