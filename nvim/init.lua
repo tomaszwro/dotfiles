@@ -1,3 +1,7 @@
+local note_dir = "/Users/tomaszwrobel/snapnote/current"
+local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
+local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
+
 vim.cmd([[
   set rtp+=/opt/homebrew/opt/fzf
 
@@ -172,6 +176,14 @@ vim.cmd([[
   endfunction
 ]])
 
+-- " better idea: instead of notes, rely on kind of clipboard stack, or perhaps that builtin thing for marked locations
+-- function! SaveCurrentLocationInTodos()
+--   let @+ = expand("%") . ':' . line('.') . "\n"
+--   call OpenMostRecentFileFromScratchpads()
+--   normal Gp
+-- endfunction
+-- nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
+
 vim.cmd([[
   function! BrowseOldFilesFromCwd()
     let current_dir = getcwd() . '/'
@@ -258,6 +270,39 @@ vim.cmd([[
       normal zz
     endif
   endfunction
+]])
+
+vim.cmd([[
+  augroup my_vimrc
+    autocmd!
+
+    " This sets up an auto command that fires after any filetype-specific plugin;
+    " the command removes the three flags from the 'formatoptions' option that
+    " control the automatic insertion of comments. With this in your vimrc, a
+    " comment character will not be automatically inserted in the next line under
+    " any situation.
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+    " From :h last-position-jump
+    " This autocommand jumps to the last known position in a file
+    " just after opening it, if the '" mark is set: >
+    autocmd BufReadPost *
+      \   if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
+      \ |   exe "normal! g`\""
+      \ | endif
+  augroup end
+
+  augroup MyTermMappings
+    autocmd!
+    autocmd TermOpen * nnoremap <buffer> o    gF:only<CR>
+    autocmd TermOpen * nnoremap <buffer> <CR> gF:only<CR>
+    autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
+  augroup END
+
+  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 wrap linebreak
+  "breakindent showbreak textwidth=120 -- what these should do?
+  autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
+  "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
 ]])
 
 vim.cmd([[
@@ -423,51 +468,6 @@ vim.cmd([[
   nnoremap j gj
   nnoremap k gk
 ]])
-
-vim.cmd([[
-  augroup my_vimrc
-    autocmd!
-
-    " This sets up an auto command that fires after any filetype-specific plugin;
-    " the command removes the three flags from the 'formatoptions' option that
-    " control the automatic insertion of comments. With this in your vimrc, a
-    " comment character will not be automatically inserted in the next line under
-    " any situation.
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
-    " From :h last-position-jump
-    " This autocommand jumps to the last known position in a file
-    " just after opening it, if the '" mark is set: >
-    autocmd BufReadPost *
-      \   if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
-      \ |   exe "normal! g`\""
-      \ | endif
-  augroup end
-
-  augroup MyTermMappings
-    autocmd!
-    autocmd TermOpen * nnoremap <buffer> o    gF:only<CR>
-    autocmd TermOpen * nnoremap <buffer> <CR> gF:only<CR>
-    autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
-  augroup END
-
-  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 wrap linebreak
-  "breakindent showbreak textwidth=120 -- what these should do?
-  autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
-  "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
-]])
-
-local note_dir = "/Users/tomaszwrobel/snapnote/current"
-local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
-local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
-
--- " better idea: instead of notes, rely on kind of clipboard stack, or perhaps that builtin thing for marked locations
--- function! SaveCurrentLocationInTodos()
---   let @+ = expand("%") . ':' . line('.') . "\n"
---   call OpenMostRecentFileFromScratchpads()
---   normal Gp
--- endfunction
--- nnoremap <Leader>sl :call SaveCurrentLocationInTodos()<CR>
 
 vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
 vim.keymap.set("n", "to", "o- ☑️ ")
