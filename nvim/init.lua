@@ -106,6 +106,7 @@ vim.cmd([[
 vim.cmd([[
   command! -nargs=+ GrepRaw cex system('ag --column --hidden --ignore .git --ignore \*.rbi --ignore \*.log <args>')
   command! -nargs=+ GrepRuby cex system('ag --column --ruby <args>')
+  command! -nargs=+ GrepRubyApp cex system('ag --column --ruby --ignore \*_spec.rb <args>')
   command! -nargs=+ G GrepRaw <args>
 ]])
 
@@ -299,7 +300,7 @@ vim.cmd([[
     autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
   augroup END
 
-  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 wrap linebreak
+  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 linebreak
   "breakindent showbreak textwidth=120 -- what these should do?
   autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
   "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
@@ -363,6 +364,7 @@ vim.cmd([[
   " Allow recursive to trigger MapNextToDefault
   nmap              su *N
   vmap              su "zy/<C-R>z<CR>N
+  nmap              sq ysiw`
 
   tnoremap <C-b> <C-\><C-n>
 
@@ -397,7 +399,7 @@ vim.cmd([[
   nmap     <Leader>n <NOP>
   nmap     <Leader>m <NOP>
 
-  nnoremap <Leader>gu :GrepRaw -w <c-r><c-w><CR>
+  nnoremap <Leader>gu :GrepRubyApp -w <c-r><c-w><CR>:cw<CR>
   nnoremap <Leader>gd :Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>
   nnoremap <Leader>gs :exec '!subl -w ' . expand('%') . ':' . line('.') . ':' . col('.')<CR><CR>
   nnoremap <Leader>gv :exec '!code -g ' . expand('%') . ':' . line('.') . ':' . col('.')<CR><CR>
