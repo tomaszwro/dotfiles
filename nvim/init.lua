@@ -331,27 +331,17 @@ vim.keymap.set("n", "*",  ":MapNextToDefault<CR>*")
 vim.keymap.set("n", "#",  ":MapNextToDefault<CR>#")
 vim.keymap.set("n", "g*", ":MapNextToDefault<CR>g*")
 vim.keymap.set("n", "g#", ":MapNextToDefault<CR>g#")
-
 vim.keymap.set("n", "M", "<Plug>MoveMotionEndOfLinePlug", { remap = true })
 vim.keymap.set("n", "K", "i<CR><ESC>k:s/\\s\\+$//e<CR>:nohl<CR>j", { silent = true })
-
--- nnoremap <C-d> 15j
--- nnoremap <C-u> 15k
-
 vim.keymap.set("c", "%%", function() return vim.fn.expand('%:h') .. '/' end, { expr = true })
 vim.keymap.set("c", "%!", function() return vim.fn.expand('%') end, { expr = true })
-
 vim.keymap.set("n", "<Esc>", "<Esc>:nohl<CR>", { silent = true })
-
--- From: http://vim.wikia.com/wiki/Selecting_your_pasted_text
 vim.keymap.set("n", "gp", function() return '`[' .. vim.fn.strpart(vim.fn.getregtype(), 0, 1) .. '`]' end, { expr = true })
-
 vim.keymap.set("", "gw", "<Plug>CamelCaseMotion_w", { silent = true, remap = true })
 vim.keymap.set("", "gb", "<Plug>CamelCaseMotion_b", { silent = true, remap = true })
 vim.keymap.set("", "ge", "<Plug>CamelCaseMotion_e", { silent = true, remap = true })
 vim.keymap.set("", ";",  "<Plug>CamelCaseMotion_w", { silent = true, remap = true })
 vim.keymap.set("", ",",  "<Plug>CamelCaseMotion_b", { silent = true, remap = true })
-
 vim.keymap.set("n", "s",  "<NOP>")
 vim.keymap.set("n", "so", "o<Esc>")
 vim.keymap.set("n", "sO", "O<Esc>")
@@ -360,15 +350,11 @@ vim.keymap.set("n", "sa", "^")
 vim.keymap.set("n", "se", "$")
 vim.keymap.set("v", "sa", "^")
 vim.keymap.set("v", "se", "$h")
--- Allow recursive to trigger MapNextToDefault
-vim.keymap.set("n", "su", "*N", { remap = true })
+vim.keymap.set("n", "su", "*N", { remap = true }) -- Allow recursive to trigger MapNextToDefault
 vim.keymap.set("v", "su", '"zy/<C-R>z<CR>N', { remap = true })
 vim.keymap.set("n", "sq", "ysiw`", { remap = true })
-
 vim.keymap.set("t", "<C-b>", "<C-\\><C-n>")
-
 vim.keymap.set("n", "<Leader>",  "<NOP>", { remap = true })
-
 vim.keymap.set("n", "<Leader>q", "<C-w>q")
 vim.keymap.set("n", "<Leader>w", "<C-w>w")
 vim.keymap.set("n", "<Leader>e", "<C-w>o")
@@ -379,7 +365,6 @@ vim.keymap.set("n", "<Leader>t", "<NOP>", { remap = true })
 vim.keymap.set("n", "<Leader>i", function() vim.fn.PutInspectStatementForCurrentWordIntoClipboard() end)
 --               o
 --               p
-
 vim.keymap.set("n", "<Leader>a", "<C-^>")
 vim.keymap.set("n", "<Leader>s", "<NOP>", { remap = true })
 vim.keymap.set("n", "<Leader>d", function() vim.fn.GoToDefinition() end)
@@ -389,15 +374,12 @@ vim.keymap.set("n", "<Leader>h", "<NOP>", { remap = true })
 vim.keymap.set("n", "<Leader>j", "<NOP>")
 vim.keymap.set("n", "<Leader>k", "<NOP>")
 vim.keymap.set("n", "<Leader>l", 'oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ } 1"<ESC>h', { remap = true })
-
 vim.keymap.set("n", "<Leader>z", ":qa<CR>")
 vim.keymap.set("n", "<Leader>x", "<NOP>", { remap = true })
 vim.keymap.set("n", "<Leader>c", "<NOP>", { remap = true })
 vim.keymap.set("n", "<Leader>v", "<NOP>")
---               b
 vim.keymap.set("n", "<Leader>n", "<NOP>", { remap = true })
 vim.keymap.set("n", "<Leader>m", "<NOP>", { remap = true })
-
 vim.keymap.set("n", "<Leader>gu", ":GrepRubyApp -w <C-r><C-w><CR>:cw<CR>")
 vim.keymap.set("n", "<Leader>gd", ":Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>")
 vim.keymap.set("n", "<Leader>gs", function()
@@ -409,48 +391,36 @@ vim.keymap.set("n", "<Leader>gv", function()
   vim.cmd('!' .. 'code -g ' .. path)
 end)
 vim.keymap.set("v", "<Leader>gu", '"zy:GrepRaw "<C-R>z"<CR>')
-
 vim.keymap.set("n", "<Leader>fo", function() vim.fn.BrowseOldFilesFromCwd() end)
-
 vim.keymap.set("n", "<Leader>mq", ":MapNextToQuickFix<CR>")
-
 vim.keymap.set("n", "<Leader>ta", ":TermTestAll<CR>")
 vim.keymap.set("n", "<Leader>tf", ":TermTestFile<CR>")
 vim.keymap.set("n", "<Leader>tt", ":TermTestSingle<CR>")
 vim.keymap.set("n", "<Leader>tr", ":TermTestRetry<CR>")
 vim.keymap.set("n", "<Leader>tv", ":TermTestView<CR>")
-
 vim.keymap.set("n", "<Leader>sh", "<Plug>(GitGutterStageHunk)", { remap = true })
 vim.keymap.set("n", "<Leader>sf", ":Gwrite<CR>")
 vim.keymap.set("n", "<Leader>sw", ":set wrap!<CR>")
-
 vim.keymap.set("n", "<Leader>cf", ":Gwrite | Git commit -v<CR>")
 vim.keymap.set("n", "<Leader>ca", ":Gcd .<CR>:silent ! git add .<CR>:cd -<CR>:Git commit -v<CR>")
 vim.keymap.set("n", "<Leader>ch", ":GitGutterStageHunk<CR>:Git commit -v<CR>")
 vim.keymap.set("n", "<Leader>cc", ":Git commit -v<CR>")
 vim.keymap.set("n", "<Leader>cp", function() vim.fn.CopyFilePath() end)
 vim.keymap.set("n", "<Leader>cl", function() vim.fn.CopyFilePathWithLine() end)
-
 vim.keymap.set("n", "<Leader>xx", ":sp | term<CR>a")
-
 vim.keymap.set("n", "<Leader>vc", ":Augment chat ")
 vim.keymap.set("n", "<Leader>vd", function() vim.g.augment_disable_completions = true end)
 vim.keymap.set("n", "<Leader>ve", function() vim.g.augment_disable_completions = false end)
 vim.keymap.set("n", "<Leader>vi", function() vim.fn.InsertTimestamp() end)
 vim.keymap.set("n", "<Leader>vr", function() vim.fn.RunShellCommandInCurrentLine() end)
-
 vim.keymap.set("n", "<Leader><Leader>", "gF")
-
 vim.keymap.set("n", "ff", ":FZF<CR>")
 vim.keymap.set("n", "fs", ":FilesModified<CR>")
-
 vim.keymap.set("n", "vai", "vaI", { remap = true })
 vim.keymap.set("n", "vis", "jvii", { remap = true })
 vim.keymap.set("n", "vas", "jvai", { remap = true })
-
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
-
 vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
 vim.keymap.set("n", "to", "o- ☑️ ")
 vim.keymap.set("n", "td", "^llr✅")
