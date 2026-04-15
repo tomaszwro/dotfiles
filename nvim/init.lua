@@ -2,6 +2,10 @@ local note_dir = "/Users/tomaszwrobel/snapnote/current"
 local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
 local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
 
+local function current_path_with_pos()
+  return vim.fn.expand('%') .. ':' .. vim.fn.line('.') .. ':' .. vim.fn.col('.')
+end
+
 vim.cmd([[
   set rtp+=/opt/homebrew/opt/fzf
 
@@ -382,14 +386,8 @@ vim.keymap.set("n", "<Leader>n", "<NOP>", { remap = true })
 vim.keymap.set("n", "<Leader>m", "<NOP>", { remap = true })
 vim.keymap.set("n", "<Leader>gu", ":GrepRubyApp -w <C-r><C-w><CR>:cw<CR>")
 vim.keymap.set("n", "<Leader>gd", ":Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>")
-vim.keymap.set("n", "<Leader>gs", function()
-  local path = vim.fn.expand('%') .. ':' .. vim.fn.line('.') .. ':' .. vim.fn.col('.')
-  vim.cmd('!' .. 'subl -w ' .. path)
-end)
-vim.keymap.set("n", "<Leader>gv", function()
-  local path = vim.fn.expand('%') .. ':' .. vim.fn.line('.') .. ':' .. vim.fn.col('.')
-  vim.cmd('!' .. 'code -g ' .. path)
-end)
+vim.keymap.set("n", "<Leader>gs", function() vim.cmd('!' .. 'subl -w ' .. current_path_with_pos()) end)
+vim.keymap.set("n", "<Leader>gv", function() vim.cmd('!' .. 'code -g ' .. current_path_with_pos()) end)
 vim.keymap.set("v", "<Leader>gu", '"zy:GrepRaw "<C-R>z"<CR>')
 vim.keymap.set("n", "<Leader>fo", function() vim.fn.BrowseOldFilesFromCwd() end)
 vim.keymap.set("n", "<Leader>mq", ":MapNextToQuickFix<CR>")
