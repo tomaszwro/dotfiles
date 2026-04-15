@@ -325,127 +325,131 @@ vim.cmd([[
 
 ]])
 
-vim.cmd([[
-  nnoremap /  :MapNextToDefault<CR>/
-  nnoremap ?  :MapNextToDefault<CR>?
-  nnoremap *  :MapNextToDefault<CR>*
-  nnoremap #  :MapNextToDefault<CR>#
-  nnoremap g* :MapNextToDefault<CR>g*
-  nnoremap g# :MapNextToDefault<CR>g#
+vim.keymap.set("n", "/",  ":MapNextToDefault<CR>/")
+vim.keymap.set("n", "?",  ":MapNextToDefault<CR>?")
+vim.keymap.set("n", "*",  ":MapNextToDefault<CR>*")
+vim.keymap.set("n", "#",  ":MapNextToDefault<CR>#")
+vim.keymap.set("n", "g*", ":MapNextToDefault<CR>g*")
+vim.keymap.set("n", "g#", ":MapNextToDefault<CR>g#")
 
-  nmap     M <Plug>MoveMotionEndOfLinePlug
-  nnoremap <silent> K i<CR><ESC>k:s/\s\+$//e<CR>:nohl<CR>j
+vim.keymap.set("n", "M", "<Plug>MoveMotionEndOfLinePlug", { remap = true })
+vim.keymap.set("n", "K", "i<CR><ESC>k:s/\\s\\+$//e<CR>:nohl<CR>j", { silent = true })
 
-  "nnoremap <C-d> 15j
-  "nnoremap <C-u> 15k
+-- nnoremap <C-d> 15j
+-- nnoremap <C-u> 15k
 
-  cnoremap <expr> %% expand('%:h').'/'
-  cnoremap <expr> %! expand('%')
+vim.keymap.set("c", "%%", function() return vim.fn.expand('%:h') .. '/' end, { expr = true })
+vim.keymap.set("c", "%!", function() return vim.fn.expand('%') end, { expr = true })
 
-  nnoremap <silent> <Esc> <Esc>:nohl<CR>
+vim.keymap.set("n", "<Esc>", "<Esc>:nohl<CR>", { silent = true })
 
-  " From: http://vim.wikia.com/wiki/Selecting_your_pasted_text
-  nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+-- From: http://vim.wikia.com/wiki/Selecting_your_pasted_text
+vim.keymap.set("n", "gp", function() return '`[' .. vim.fn.strpart(vim.fn.getregtype(), 0, 1) .. '`]' end, { expr = true })
 
-  map <silent> gw <Plug>CamelCaseMotion_w
-  map <silent> gb <Plug>CamelCaseMotion_b
-  map <silent> ge <Plug>CamelCaseMotion_e
-  map <silent> ; <Plug>CamelCaseMotion_w
-  map <silent> , <Plug>CamelCaseMotion_b
+vim.keymap.set("", "gw", "<Plug>CamelCaseMotion_w", { silent = true, remap = true })
+vim.keymap.set("", "gb", "<Plug>CamelCaseMotion_b", { silent = true, remap = true })
+vim.keymap.set("", "ge", "<Plug>CamelCaseMotion_e", { silent = true, remap = true })
+vim.keymap.set("", ";",  "<Plug>CamelCaseMotion_w", { silent = true, remap = true })
+vim.keymap.set("", ",",  "<Plug>CamelCaseMotion_b", { silent = true, remap = true })
 
-  nmap              s  <NOP>
-  nnoremap          so o<esc>
-  nnoremap          sO O<esc>
-  nnoremap <silent> ss :silent up<CR>
-  nnoremap          sa ^
-  nnoremap          se $
-  vnoremap          sa ^
-  vnoremap          se $h
-  " Allow recursive to trigger MapNextToDefault
-  nmap              su *N
-  vmap              su "zy/<C-R>z<CR>N
-  nmap              sq ysiw`
+vim.keymap.set("n", "s",  "<NOP>")
+vim.keymap.set("n", "so", "o<Esc>")
+vim.keymap.set("n", "sO", "O<Esc>")
+vim.keymap.set("n", "ss", ":silent up<CR>", { silent = true })
+vim.keymap.set("n", "sa", "^")
+vim.keymap.set("n", "se", "$")
+vim.keymap.set("v", "sa", "^")
+vim.keymap.set("v", "se", "$h")
+-- Allow recursive to trigger MapNextToDefault
+vim.keymap.set("n", "su", "*N", { remap = true })
+vim.keymap.set("v", "su", '"zy/<C-R>z<CR>N', { remap = true })
+vim.keymap.set("n", "sq", "ysiw`", { remap = true })
 
-  tnoremap <C-b> <C-\><C-n>
+vim.keymap.set("t", "<C-b>", "<C-\\><C-n>")
 
-  nmap     <Leader>  <NOP>
+vim.keymap.set("n", "<Leader>",  "<NOP>", { remap = true })
 
-  nnoremap <Leader>q <C-w>q
-  nnoremap <Leader>w <C-w>w
-  nnoremap <Leader>e <C-w>o
-  nnoremap <Leader>r q:?
-  nmap     <Leader>t  <NOP>
-  "                y
-  "                u
-  nmap     <Leader>i :call PutInspectStatementForCurrentWordIntoClipboard()<CR>
-  "                o
-  "                p
+vim.keymap.set("n", "<Leader>q", "<C-w>q")
+vim.keymap.set("n", "<Leader>w", "<C-w>w")
+vim.keymap.set("n", "<Leader>e", "<C-w>o")
+vim.keymap.set("n", "<Leader>r", "q:?")
+vim.keymap.set("n", "<Leader>t", "<NOP>", { remap = true })
+--               y
+--               u
+vim.keymap.set("n", "<Leader>i", function() vim.fn.PutInspectStatementForCurrentWordIntoClipboard() end)
+--               o
+--               p
 
-  nnoremap <Leader>a <C-^>
-  nmap     <Leader>s  <NOP>
-  nnoremap <Leader>d :call GoToDefinition()<CR>
-  nmap     <Leader>f  <NOP>
-  nmap     <Leader>g  <NOP>
-  nmap     <Leader>h  <NOP>
-  nnoremap <Leader>j <NOP>
-  nnoremap <Leader>k <NOP>
-  nmap     <Leader>l oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ } 1"<ESC>h
+vim.keymap.set("n", "<Leader>a", "<C-^>")
+vim.keymap.set("n", "<Leader>s", "<NOP>", { remap = true })
+vim.keymap.set("n", "<Leader>d", function() vim.fn.GoToDefinition() end)
+vim.keymap.set("n", "<Leader>f", "<NOP>", { remap = true })
+vim.keymap.set("n", "<Leader>g", "<NOP>", { remap = true })
+vim.keymap.set("n", "<Leader>h", "<NOP>", { remap = true })
+vim.keymap.set("n", "<Leader>j", "<NOP>")
+vim.keymap.set("n", "<Leader>k", "<NOP>")
+vim.keymap.set("n", "<Leader>l", 'oputs "----- DEBUGGERER -- #{ self.class } -- #{ __method__ } 1"<ESC>h', { remap = true })
 
-  nnoremap <Leader>z :qa<CR>
-  nmap     <Leader>x  <NOP>
-  nmap     <Leader>c  <NOP>
-  nnoremap <Leader>v <NOP>
-  "                b
-  nmap     <Leader>n <NOP>
-  nmap     <Leader>m <NOP>
+vim.keymap.set("n", "<Leader>z", ":qa<CR>")
+vim.keymap.set("n", "<Leader>x", "<NOP>", { remap = true })
+vim.keymap.set("n", "<Leader>c", "<NOP>", { remap = true })
+vim.keymap.set("n", "<Leader>v", "<NOP>")
+--               b
+vim.keymap.set("n", "<Leader>n", "<NOP>", { remap = true })
+vim.keymap.set("n", "<Leader>m", "<NOP>", { remap = true })
 
-  nnoremap <Leader>gu :GrepRubyApp -w <c-r><c-w><CR>:cw<CR>
-  nnoremap <Leader>gd :Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>
-  nnoremap <Leader>gs :exec '!subl -w ' . expand('%') . ':' . line('.') . ':' . col('.')<CR><CR>
-  nnoremap <Leader>gv :exec '!code -g ' . expand('%') . ':' . line('.') . ':' . col('.')<CR><CR>
-  vnoremap <Leader>gu "zy:GrepRaw "<C-R>z"<CR>
+vim.keymap.set("n", "<Leader>gu", ":GrepRubyApp -w <C-r><C-w><CR>:cw<CR>")
+vim.keymap.set("n", "<Leader>gd", ":Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>")
+vim.keymap.set("n", "<Leader>gs", function()
+  local path = vim.fn.expand('%') .. ':' .. vim.fn.line('.') .. ':' .. vim.fn.col('.')
+  vim.cmd('!' .. 'subl -w ' .. path)
+end)
+vim.keymap.set("n", "<Leader>gv", function()
+  local path = vim.fn.expand('%') .. ':' .. vim.fn.line('.') .. ':' .. vim.fn.col('.')
+  vim.cmd('!' .. 'code -g ' .. path)
+end)
+vim.keymap.set("v", "<Leader>gu", '"zy:GrepRaw "<C-R>z"<CR>')
 
-  nnoremap <Leader>fo :call BrowseOldFilesFromCwd()<CR>
+vim.keymap.set("n", "<Leader>fo", function() vim.fn.BrowseOldFilesFromCwd() end)
 
-  nnoremap <Leader>mq :MapNextToQuickFix<CR>
+vim.keymap.set("n", "<Leader>mq", ":MapNextToQuickFix<CR>")
 
-  nnoremap <Leader>ta :TermTestAll<CR>
-  nnoremap <Leader>tf :TermTestFile<CR>
-  nnoremap <Leader>tt :TermTestSingle<CR>
-  nnoremap <Leader>tr :TermTestRetry<CR>
-  nnoremap <Leader>tv :TermTestView<CR>
+vim.keymap.set("n", "<Leader>ta", ":TermTestAll<CR>")
+vim.keymap.set("n", "<Leader>tf", ":TermTestFile<CR>")
+vim.keymap.set("n", "<Leader>tt", ":TermTestSingle<CR>")
+vim.keymap.set("n", "<Leader>tr", ":TermTestRetry<CR>")
+vim.keymap.set("n", "<Leader>tv", ":TermTestView<CR>")
 
-  nmap     <Leader>sh <Plug>(GitGutterStageHunk)
-  nmap     <Leader>sf :Gwrite<CR>
-  nnoremap <Leader>sw :set wrap!<CR>
+vim.keymap.set("n", "<Leader>sh", "<Plug>(GitGutterStageHunk)", { remap = true })
+vim.keymap.set("n", "<Leader>sf", ":Gwrite<CR>")
+vim.keymap.set("n", "<Leader>sw", ":set wrap!<CR>")
 
-  nnoremap <Leader>cf :Gwrite\|Git commit -v<CR>
-  nnoremap <Leader>ca :Gcd .<CR>:silent ! git add .<CR>:cd -<CR>:Git commit -v<CR>
-  nnoremap <Leader>ch :GitGutterStageHunk<CR>:Git commit -v<CR>
-  nnoremap <Leader>cc :Git commit -v<CR>
-  nnoremap <Leader>cp :call CopyFilePath()<CR>
-  nnoremap <Leader>cl :call CopyFilePathWithLine()<CR>
+vim.keymap.set("n", "<Leader>cf", ":Gwrite | Git commit -v<CR>")
+vim.keymap.set("n", "<Leader>ca", ":Gcd .<CR>:silent ! git add .<CR>:cd -<CR>:Git commit -v<CR>")
+vim.keymap.set("n", "<Leader>ch", ":GitGutterStageHunk<CR>:Git commit -v<CR>")
+vim.keymap.set("n", "<Leader>cc", ":Git commit -v<CR>")
+vim.keymap.set("n", "<Leader>cp", function() vim.fn.CopyFilePath() end)
+vim.keymap.set("n", "<Leader>cl", function() vim.fn.CopyFilePathWithLine() end)
 
-  nnoremap <Leader>xx :sp\|term<CR>a
+vim.keymap.set("n", "<Leader>xx", ":sp | term<CR>a")
 
-  nnoremap <Leader>vc :Augment chat 
-  nnoremap <Leader>vd :let g:augment_disable_completions = v:true<CR>
-  nnoremap <Leader>ve :let g:augment_disable_completions = v:false<CR>
-  nnoremap <Leader>vi :call InsertTimestamp()<CR>
-  nnoremap <Leader>vr :call RunShellCommandInCurrentLine()<CR>
+vim.keymap.set("n", "<Leader>vc", ":Augment chat ")
+vim.keymap.set("n", "<Leader>vd", function() vim.g.augment_disable_completions = true end)
+vim.keymap.set("n", "<Leader>ve", function() vim.g.augment_disable_completions = false end)
+vim.keymap.set("n", "<Leader>vi", function() vim.fn.InsertTimestamp() end)
+vim.keymap.set("n", "<Leader>vr", function() vim.fn.RunShellCommandInCurrentLine() end)
 
-  nnoremap <Leader><Leader> gF
+vim.keymap.set("n", "<Leader><Leader>", "gF")
 
-  nnoremap ff :FZF<CR>
-  nnoremap fs :FilesModified<CR>
+vim.keymap.set("n", "ff", ":FZF<CR>")
+vim.keymap.set("n", "fs", ":FilesModified<CR>")
 
-  nmap vai vaI
-  nmap vis jvii
-  nmap vas jvai
+vim.keymap.set("n", "vai", "vaI", { remap = true })
+vim.keymap.set("n", "vis", "jvii", { remap = true })
+vim.keymap.set("n", "vas", "jvai", { remap = true })
 
-  nnoremap j gj
-  nnoremap k gk
-]])
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
 
 vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
 vim.keymap.set("n", "to", "o- ☑️ ")
