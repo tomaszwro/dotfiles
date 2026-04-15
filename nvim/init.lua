@@ -22,7 +22,7 @@ vim.cmd([[
   Plug 'tpope/vim-rsi'
   Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-vinegar'
-  Plug 'vim-ruby/vim-ruby'
+  "Plug 'vim-ruby/vim-ruby'
   Plug 'itchyny/lightline.vim'
   Plug 'terryma/vim-multiple-cursors'
   Plug 'michaeljsmith/vim-indent-object'
@@ -33,8 +33,8 @@ vim.cmd([[
   Plug 'beloglazov/vim-textobj-quotes'
   Plug 'bkad/camelcasemotion'
   Plug 'svermeulen/vim-easyclip'
-  Plug 'AndrewRadev/splitjoin.vim'
-  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+  "Plug 'AndrewRadev/splitjoin.vim'
+  "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
   call plug#end()
 ]])
 
@@ -374,6 +374,7 @@ vim.keymap.set("n", "tl", "A⚡️<Esc>")
 
 vim.keymap.set("n", "ff", ":FZF<CR>")
 vim.keymap.set("n", "fs", ":FilesModified<CR>")
+vim.keymap.set("n", "fw", function() vim.cmd.split(vim.fn.fnameescape(work_file_path)) end)
 vim.keymap.set("n", "fW", function() vim.cmd.edit(vim.fn.fnameescape(work_file_path)) end)
 vim.keymap.set("n", "fp", function() vim.cmd.split(vim.fn.fnameescape(priv_file_path)) end)
 vim.keymap.set("n", "fP", function() vim.cmd.edit(vim.fn.fnameescape(priv_file_path)) end)
