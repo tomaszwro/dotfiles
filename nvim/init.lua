@@ -76,7 +76,6 @@ vim.cmd([[
 vim.cmd([[
   let g:ruby_indent_block_style = 'do'
   let g:ruby_indent_assignment_style = 'variable'
-
   let g:lightline = {
     \ 'active': {
     \   'left': [
@@ -90,8 +89,6 @@ vim.cmd([[
     \   ]
     \ },
     \ }
-
-
 ]])
 
 vim.cmd([[
@@ -405,7 +402,6 @@ vim.keymap.set("n", "<leader>sf", ":Gwrite<CR>")
 vim.keymap.set("n", "<leader>sw", ":set wrap!<CR>")
 vim.keymap.set("n", "<leader>d", function() vim.fn.GoToDefinition() end)
 vim.keymap.set("n", "<leader>f", "<NOP>", { remap = true })
-vim.keymap.set("n", "<leader>fo", function() vim.fn.BrowseOldFilesFromCwd() end)
 vim.keymap.set("n", "<leader>g", "<NOP>", { remap = true })
 vim.keymap.set("n", "<leader>gu", ":GrepRubyApp -w <C-r><C-w><CR>:cw<CR>")
 vim.keymap.set("n", "<leader>gd", ":Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>")
