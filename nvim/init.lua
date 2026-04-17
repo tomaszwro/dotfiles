@@ -7,6 +7,11 @@ local function current_path_with_pos()
 end
 
 vim.cmd([[
+  let $BASH_ENV = "$HOME/.zsh_aliases"
+  let mapleader = " "
+]])
+
+vim.cmd([[
   set rtp+=/opt/homebrew/opt/fzf
 
   call plug#begin()
@@ -38,10 +43,11 @@ vim.cmd([[
   call plug#end()
 ]])
 
-vim.cmd([[
-  let $BASH_ENV = "$HOME/.zsh_aliases"
-  let mapleader = " "
-]])
+vim.pack.add({
+  "https://github.com/nvim-mini/mini.move",
+})
+
+require('mini.move').setup()
 
 vim.cmd([[
   set background=dark
@@ -108,7 +114,6 @@ vim.cmd([[
 ]])
 
 vim.cmd([[
-
   " command! FilesModified call fzf#run(fzf#wrap({'source': 'git status -su | cut -c 4-'}))
   " git status -su | awk '{print $2 " " $1}' | sort
   command! FilesModified
@@ -258,7 +263,8 @@ vim.cmd([[
     if search('\<def ' . expand("<cword>") . '\>', 's') == 0
       " that's why it was broken such a long time
       "execute 'GrepRaw -w "(def \|class \|module )' . expand("<cword>") . '"'
-      execute 'GrepRuby -w "(def |class |module )' . expand("<cword>") . '"'
+      " could use <cWORD> here, but will also catch stuff like .new etc all; so needs a better regex
+      execute 'GrepRuby -w "(def |class |module ).*' . expand("<cword>") . '"'
       " or do it sequentially? first def, then class, then module? esp with further tweaks
       if len(getqflist()) > 1
         copen
@@ -430,12 +436,6 @@ vim.g.augment_disable_completions = true
 vim.g.augment_workspace_folders = {
   "/Users/tomaszwrobel/work/taskrabbit/v3",
 }
-
-vim.pack.add({
-  "https://github.com/nvim-mini/mini.move",
-})
-
-require('mini.move').setup()
 
 do -- FOLDING
   vim.opt.foldenable = true        -- Enable folding
