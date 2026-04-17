@@ -25,12 +25,14 @@ vim.pack.add({
 
 require('mini.move').setup()
 
+vim.opt.rtp:append("/opt/homebrew/opt/fzf")
+
 vim.cmd([[
-  set rtp+=/opt/homebrew/opt/fzf
+  "set rtp+=/opt/homebrew/opt/fzf
 
   call plug#begin()
   " Plug 'augmentcode/augment.vim'
-  Plug '/usr/local/opt/fzf'
+  "Plug '/usr/local/opt/fzf'
   "Plug 'tpope/vim-sensible'
   "Plug 'tpope/vim-commentary'
   "Plug 'tpope/vim-endwise'
