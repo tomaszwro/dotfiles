@@ -14,6 +14,7 @@ vim.cmd([[
 vim.pack.add({
   "https://github.com/nvim-mini/mini.move",
   "https://github.com/tpope/vim-fugitive",
+  "https://github.com/tpope/vim-rhubarb",
 })
 
 require('mini.move').setup()
@@ -28,7 +29,7 @@ vim.cmd([[
   "Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-endwise'
   "Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-rhubarb'
+  "Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-rsi'
