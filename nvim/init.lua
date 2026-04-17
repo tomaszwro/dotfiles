@@ -1,3 +1,4 @@
+-- {{{1 local
 local note_dir = "/Users/tomaszwrobel/snapnote/current"
 local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
 local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
@@ -11,6 +12,7 @@ vim.cmd([[
   let mapleader = " "
 ]])
 
+-- {{{1 plugins
 vim.pack.add({
   "https://github.com/nvim-mini/mini.move",
   "https://github.com/tpope/vim-fugitive",
@@ -31,6 +33,7 @@ require('mini.move').setup()
 
 vim.opt.rtp:append("/opt/homebrew/opt/fzf")
 
+-- {{{1 set
 vim.cmd([[
   set background=dark
   set tabstop=2
@@ -75,6 +78,7 @@ vim.cmd([[
     \ }
 ]])
 
+-- {{{1 colors
 vim.cmd([[
   let g:gitgutter_override_sign_column_highlight = 0
   "colorscheme vim
@@ -88,6 +92,7 @@ vim.cmd([[
   hi SignColumn ctermbg=bg
 ]])
 
+-- {{{1 commands
 vim.cmd([[
   command! -nargs=+ GrepRaw cex system('ag --column --hidden --ignore .git --ignore \*.rbi --ignore \*.log <args>')
   command! -nargs=+ GrepRuby cex system('ag --column --ruby <args>')
@@ -305,6 +310,7 @@ vim.cmd([[
 
 ]])
 
+-- {{{1 mappings var
 vim.keymap.set("n", "/",  ":MapNextToDefault<CR>/")
 vim.keymap.set("n", "?",  ":MapNextToDefault<CR>?")
 vim.keymap.set("n", "*",  ":MapNextToDefault<CR>*")
@@ -329,40 +335,38 @@ vim.keymap.set("n", "vai", "vaI", { remap = true })
 vim.keymap.set("n", "vis", "jvii", { remap = true })
 vim.keymap.set("n", "vas", "jvai", { remap = true })
 
-do -- s mappings
-  vim.keymap.set("n", "s",  "<NOP>")
-  vim.keymap.set("n", "so", "o<Esc>")
-  vim.keymap.set("n", "sO", "O<Esc>")
-  vim.keymap.set("n", "ss", ":silent up<CR>", { silent = true })
-  vim.keymap.set("n", "sa", "^")
-  vim.keymap.set("n", "se", "$")
-  vim.keymap.set("v", "sa", "^")
-  vim.keymap.set("v", "se", "$h")
-  vim.keymap.set("n", "su", "*N", { remap = true }) -- Allow recursive to trigger MapNextToDefault
-  vim.keymap.set("v", "su", '"zy/<C-R>z<CR>N', { remap = true })
-  vim.keymap.set("n", "sq", "ysiw`", { remap = true })
-end
+-- {{{1 mappings s
+vim.keymap.set("n", "s",  "<NOP>")
+vim.keymap.set("n", "so", "o<Esc>")
+vim.keymap.set("n", "sO", "O<Esc>")
+vim.keymap.set("n", "ss", ":silent up<CR>", { silent = true })
+vim.keymap.set("n", "sa", "^")
+vim.keymap.set("n", "se", "$")
+vim.keymap.set("v", "sa", "^")
+vim.keymap.set("v", "se", "$h")
+vim.keymap.set("n", "su", "*N", { remap = true }) -- Allow recursive to trigger MapNextToDefault
+vim.keymap.set("v", "su", '"zy/<C-R>z<CR>N', { remap = true })
+vim.keymap.set("n", "sq", "ysiw`", { remap = true })
 
-do -- t mappings
-  vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
-  vim.keymap.set("n", "to", "o- ☑️ ")
-  vim.keymap.set("n", "td", "^llr✅")
-  vim.keymap.set("n", "tu", "^llr☑️")
-  vim.keymap.set("n", "tr", "^llr✖️")
-  vim.keymap.set("n", "tp", "^lla❗<Esc>")
-  vim.keymap.set("n", "ti", "A❗<Esc>")
-  vim.keymap.set("n", "tq", "A❔<Esc>")
-  vim.keymap.set("n", "tl", "A⚡️<Esc>")
-end
+-- {{{1 mappings t
+vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
+vim.keymap.set("n", "to", "o- ☑️ ")
+vim.keymap.set("n", "td", "^llr✅")
+vim.keymap.set("n", "tu", "^llr☑️")
+vim.keymap.set("n", "tr", "^llr✖️")
+vim.keymap.set("n", "tp", "^lla❗<Esc>")
+vim.keymap.set("n", "ti", "A❗<Esc>")
+vim.keymap.set("n", "tq", "A❔<Esc>")
+vim.keymap.set("n", "tl", "A⚡️<Esc>")
 
-do -- f mappings
-  vim.keymap.set("n", "ff", ":FZF<CR>")
-  vim.keymap.set("n", "fs", ":FilesModified<CR>")
-  vim.keymap.set("n", "fw", function() vim.cmd.edit(vim.fn.fnameescape(work_file_path)) end)
-  vim.keymap.set("n", "fp", function() vim.cmd.edit(vim.fn.fnameescape(priv_file_path)) end)
-  vim.keymap.set("n", "fd", function() vim.cmd('bd') end)
-end
+-- {{{1 mappings f
+vim.keymap.set("n", "ff", ":FZF<CR>")
+vim.keymap.set("n", "fs", ":FilesModified<CR>")
+vim.keymap.set("n", "fw", function() vim.cmd.edit(vim.fn.fnameescape(work_file_path)) end)
+vim.keymap.set("n", "fp", function() vim.cmd.edit(vim.fn.fnameescape(priv_file_path)) end)
+vim.keymap.set("n", "fd", function() vim.cmd('bd') end)
 
+-- {{{1 mappings leader
 vim.keymap.set("n", "<leader>",  "<NOP>", { remap = true })
 vim.keymap.set("n", "<leader>q", "<C-w>q")
 vim.keymap.set("n", "<leader>w", "<C-w>w")
@@ -425,36 +429,33 @@ vim.g.augment_workspace_folders = {
   "/Users/tomaszwrobel/work/taskrabbit/v3",
 }
 
-do -- FOLDING
-  vim.opt.foldenable = true        -- Enable folding
-  vim.opt.foldlevelstart = 10      -- Open most folds by default
-  vim.opt.foldnestmax = 10         -- 10 nested fold max
-  vim.opt.foldmethod = "indent"    -- Fold based on indent level
+-- {{{1 folding 
+vim.opt.foldenable = true        -- Enable folding
+vim.opt.foldlevelstart = 10      -- Open most folds by default
+vim.opt.foldnestmax = 10         -- 10 nested fold max
+vim.opt.foldmethod = "indent"    -- Fold based on indent level
 
-  vim.cmd([[
-    autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 linebreak
-    "breakindent showbreak textwidth=120 -- what these should do?
-    autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
-    "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
-  ]])
+vim.cmd([[
+  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 linebreak
+  "breakindent showbreak textwidth=120 -- what these should do?
+  autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
+  "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
+]])
 
-  vim.cmd([[
-    function! MyFoldText()
-      let line_count = v:foldend - v:foldstart + 1
-      let line_text = getline(v:foldstart)
-      return printf('%-50s [%d lines]', line_text, line_count)
-    endfunction
-    set foldtext=MyFoldText()
-  ]])
+vim.cmd([[
+  function! MyFoldText()
+    let line_count = v:foldend - v:foldstart + 1
+    let line_text = getline(v:foldstart)
+    return printf('%-50s [%d lines]', line_text, line_count)
+  endfunction
+  set foldtext=MyFoldText()
+]])
 
-  vim.opt.fillchars:append({ fold = " " })
-  vim.api.nvim_set_hl(0, "Folded", { bg = "NONE", fg = "NONE", underline = true })
-  -- vim.api.nvim_set_hl(0, "Folded", { link = "Normal" }) -- link to default
-end
+vim.opt.fillchars:append({ fold = " " })
+vim.api.nvim_set_hl(0, "Folded", { bg = "NONE", fg = "NONE", underline = true })
+-- vim.api.nvim_set_hl(0, "Folded", { link = "Normal" }) -- link to default
 
-
+-- {{{1 todos
 -- todo: split and open previous
 -- todo: gx but finds next url in line - perhaps just /http
 -- better default indent folds (so that it collapses into 1 line) - just change the config to also include next same ident line and any empty lines⚡️❔
-
-
