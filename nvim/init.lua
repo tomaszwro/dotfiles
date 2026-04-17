@@ -65,10 +65,6 @@ vim.cmd([[
   set lazyredraw
   set iskeyword+=-
   set hidden                  " To allow terminal buffers update in bg
-  set foldenable              " Enable folding
-  set foldlevelstart=10       " Open most folds by default
-  set foldnestmax=10          " 10 nested fold max
-  set foldmethod=indent       " Fold based on indent level
   set mouse=a                 " Enable vim mouse scrolling while in tmux
   set nomodeline
 ]])
@@ -300,11 +296,6 @@ vim.cmd([[
     autocmd TermOpen * nnoremap <buffer> <CR> gF:only<CR>
     autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
   augroup END
-
-  autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 linebreak
-  "breakindent showbreak textwidth=120 -- what these should do?
-  autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
-  "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
 ]])
 
 vim.cmd([[
@@ -446,18 +437,34 @@ vim.pack.add({
 
 require('mini.move').setup()
 
-vim.cmd([[
-  function! MyFoldText()
-    let line_count = v:foldend - v:foldstart + 1
-    let line_text = getline(v:foldstart)
-    return printf('%-50s [%d lines]', line_text, line_count)
-  endfunction
-  set foldtext=MyFoldText()
-]])
+do -- FOLDING
+  vim.cmd([[
+    set foldenable              " Enable folding
+    set foldlevelstart=10       " Open most folds by default
+    set foldnestmax=10          " 10 nested fold max
+    set foldmethod=indent       " Fold based on indent level
+  ]])
 
-vim.opt.fillchars:append({ fold = " " })
-vim.api.nvim_set_hl(0, "Folded", { bg = "NONE", fg = "NONE", underline = true })
--- vim.api.nvim_set_hl(0, "Folded", { link = "Normal" }) -- link to default
+  vim.cmd([[
+    autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 linebreak
+    "breakindent showbreak textwidth=120 -- what these should do?
+    autocmd FileType markdown setlocal foldmethod=expr foldexpr=MarkdownFold()
+    "autocmd FileType markdown setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
+  ]])
+
+  vim.cmd([[
+    function! MyFoldText()
+      let line_count = v:foldend - v:foldstart + 1
+      let line_text = getline(v:foldstart)
+      return printf('%-50s [%d lines]', line_text, line_count)
+    endfunction
+    set foldtext=MyFoldText()
+  ]])
+
+  vim.opt.fillchars:append({ fold = " " })
+  vim.api.nvim_set_hl(0, "Folded", { bg = "NONE", fg = "NONE", underline = true })
+  -- vim.api.nvim_set_hl(0, "Folded", { link = "Normal" }) -- link to default
+end
 
 
 -- todo: split and open previous
