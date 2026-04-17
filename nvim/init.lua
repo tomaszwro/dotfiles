@@ -438,12 +438,10 @@ vim.pack.add({
 require('mini.move').setup()
 
 do -- FOLDING
-  vim.cmd([[
-    set foldenable              " Enable folding
-    set foldlevelstart=10       " Open most folds by default
-    set foldnestmax=10          " 10 nested fold max
-    set foldmethod=indent       " Fold based on indent level
-  ]])
+  vim.opt.foldenable = true        -- Enable folding
+  vim.opt.foldlevelstart = 10      -- Open most folds by default
+  vim.opt.foldnestmax = 10         -- 10 nested fold max
+  vim.opt.foldmethod = "indent"    -- Fold based on indent level
 
   vim.cmd([[
     autocmd FileType markdown setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 linebreak
