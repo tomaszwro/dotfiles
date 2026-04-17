@@ -1,12 +1,28 @@
 {
   "plugins": {
+    "lightline.vim": {
+      "rev": "6c283f8df85aa7219fa4096a6ed4ff45d48aa9e1",
+      "src": "https://github.com/itchyny/lightline.vim"
+    },
     "mini.move": {
       "rev": "74d140143b1bb905c3d0aebcfc2f216fd237080e",
       "src": "https://github.com/nvim-mini/mini.move"
     },
+    "vim-colors-solarized": {
+      "rev": "528a59f26d12278698bb946f8fb82a63711eec21",
+      "src": "https://github.com/altercation/vim-colors-solarized"
+    },
+    "vim-easyclip": {
+      "rev": "4601faae051bec8ced37b452b32defca62a633f3",
+      "src": "https://github.com/svermeulen/vim-easyclip"
+    },
     "vim-fugitive": {
       "rev": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0",
       "src": "https://github.com/tpope/vim-fugitive"
+    },
+    "vim-gitgutter": {
+      "rev": "21c977e8597c468c7dc76001389b0b430d46a4b0",
+      "src": "https://github.com/airblade/vim-gitgutter"
     },
     "vim-indent-object": {
       "rev": "8ab36d5ec2a3a60468437a95e142ce994df598c6",

@@ -21,6 +21,10 @@ vim.pack.add({
   "https://github.com/kana/vim-textobj-user",
   "https://github.com/kana/vim-textobj-entire",
   "https://github.com/beloglazov/vim-textobj-quotes",
+  "https://github.com/itchyny/lightline.vim",
+  "https://github.com/airblade/vim-gitgutter",
+  "https://github.com/altercation/vim-colors-solarized",
+  "https://github.com/svermeulen/vim-easyclip",
 })
 
 require('mini.move').setup()
@@ -44,16 +48,16 @@ vim.cmd([[
   "Plug 'tpope/vim-eunuch'
   "Plug 'tpope/vim-vinegar'
   "Plug 'vim-ruby/vim-ruby'
-  Plug 'itchyny/lightline.vim'
+  "Plug 'itchyny/lightline.vim'
   "Plug 'terryma/vim-multiple-cursors'
   "Plug 'michaeljsmith/vim-indent-object'
-  Plug 'airblade/vim-gitgutter'
-  Plug 'altercation/vim-colors-solarized'
+  "Plug 'airblade/vim-gitgutter'
+  "Plug 'altercation/vim-colors-solarized'
   "Plug 'kana/vim-textobj-user'
   "Plug 'kana/vim-textobj-entire'
   "Plug 'beloglazov/vim-textobj-quotes'
   "Plug 'bkad/camelcasemotion'
-  Plug 'svermeulen/vim-easyclip'
+  "Plug 'svermeulen/vim-easyclip'
   "Plug 'AndrewRadev/splitjoin.vim'
   "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
   call plug#end()
