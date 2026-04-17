@@ -13,7 +13,7 @@ vim.cmd([[
   " Plug 'augmentcode/augment.vim'
   Plug '/usr/local/opt/fzf'
   Plug 'tpope/vim-sensible'
-  Plug 'tpope/vim-commentary'
+  "Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
@@ -211,8 +211,8 @@ vim.cmd([[
     " TODO: use note_dir once converted to lua
     let scratchpads_dir = '/Users/tomaszwrobel/snapnote/current'
     for file in v:oldfiles
-      " if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
-      if (match(file, current_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
+      "if (match(file, current_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
+      if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
         execute "edit " . file
         break
       endif
@@ -374,10 +374,8 @@ vim.keymap.set("n", "tl", "A⚡️<Esc>")
 
 vim.keymap.set("n", "ff", ":FZF<CR>")
 vim.keymap.set("n", "fs", ":FilesModified<CR>")
-vim.keymap.set("n", "fw", function() vim.cmd.split(vim.fn.fnameescape(work_file_path)) end)
-vim.keymap.set("n", "fW", function() vim.cmd.edit(vim.fn.fnameescape(work_file_path)) end)
-vim.keymap.set("n", "fp", function() vim.cmd.split(vim.fn.fnameescape(priv_file_path)) end)
-vim.keymap.set("n", "fP", function() vim.cmd.edit(vim.fn.fnameescape(priv_file_path)) end)
+vim.keymap.set("n", "fw", function() vim.cmd.edit(vim.fn.fnameescape(work_file_path)) end)
+vim.keymap.set("n", "fp", function() vim.cmd.edit(vim.fn.fnameescape(priv_file_path)) end)
 vim.keymap.set("n", "fd", function() vim.cmd('bd') end)
 
 vim.keymap.set("n", "<leader>",  "<NOP>", { remap = true })
@@ -441,4 +439,29 @@ vim.g.augment_disable_completions = true
 vim.g.augment_workspace_folders = {
   "/Users/tomaszwrobel/work/taskrabbit/v3",
 }
+
+vim.pack.add({
+  "https://github.com/nvim-mini/mini.move",
+})
+
+require('mini.move').setup()
+
+vim.cmd([[
+  function! MyFoldText()
+    let line_count = v:foldend - v:foldstart + 1
+    let line_text = getline(v:foldstart)
+    return printf('%-50s [%d lines]', line_text, line_count)
+  endfunction
+  set foldtext=MyFoldText()
+]])
+
+vim.opt.fillchars:append({ fold = " " })
+vim.api.nvim_set_hl(0, "Folded", { bg = "NONE", fg = "NONE", underline = true })
+-- vim.api.nvim_set_hl(0, "Folded", { link = "Normal" }) -- link to default
+
+
+-- todo: split and open previous
+-- todo: gx but finds next url in line - perhaps just /http
+-- better default indent folds (so that it collapses into 1 line) - just change the config to also include next same ident line and any empty lines⚡️❔
+
 
