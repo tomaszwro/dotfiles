@@ -11,6 +11,12 @@ vim.cmd([[
   let mapleader = " "
 ]])
 
+vim.pack.add({
+  "https://github.com/nvim-mini/mini.move",
+})
+
+require('mini.move').setup()
+
 vim.cmd([[
   set rtp+=/opt/homebrew/opt/fzf
 
@@ -42,12 +48,6 @@ vim.cmd([[
   "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
   call plug#end()
 ]])
-
-vim.pack.add({
-  "https://github.com/nvim-mini/mini.move",
-})
-
-require('mini.move').setup()
 
 vim.cmd([[
   set background=dark
