@@ -15,6 +15,8 @@ vim.pack.add({
   "https://github.com/nvim-mini/mini.move",
   "https://github.com/tpope/vim-fugitive",
   "https://github.com/tpope/vim-rhubarb",
+  "https://github.com/tpope/vim-surround",
+  "https://github.com/tpope/vim-vinegar",
 })
 
 require('mini.move').setup()
@@ -25,19 +27,19 @@ vim.cmd([[
   call plug#begin()
   " Plug 'augmentcode/augment.vim'
   Plug '/usr/local/opt/fzf'
-  Plug 'tpope/vim-sensible'
+  "Plug 'tpope/vim-sensible'
   "Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-endwise'
+  "Plug 'tpope/vim-endwise'
   "Plug 'tpope/vim-fugitive'
   "Plug 'tpope/vim-rhubarb'
-  Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-rsi'
-  Plug 'tpope/vim-eunuch'
-  Plug 'tpope/vim-vinegar'
+  "Plug 'tpope/vim-surround'
+  "Plug 'tpope/vim-repeat'
+  "Plug 'tpope/vim-rsi'
+  "Plug 'tpope/vim-eunuch'
+  "Plug 'tpope/vim-vinegar'
   "Plug 'vim-ruby/vim-ruby'
   Plug 'itchyny/lightline.vim'
-  Plug 'terryma/vim-multiple-cursors'
+  "Plug 'terryma/vim-multiple-cursors'
   Plug 'michaeljsmith/vim-indent-object'
   Plug 'airblade/vim-gitgutter'
   Plug 'altercation/vim-colors-solarized'
