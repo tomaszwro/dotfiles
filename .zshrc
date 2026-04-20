@@ -179,3 +179,11 @@ export PATH="/Users/tomaszwrobel/.local/bin:$PATH"
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
+
+# pnpm
+export PNPM_HOME="/Users/tomaszwrobel/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

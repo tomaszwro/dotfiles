@@ -347,6 +347,7 @@ vim.keymap.set("v", "se", "$h")
 vim.keymap.set("n", "su", "*N", { remap = true }) -- Allow recursive to trigger MapNextToDefault
 vim.keymap.set("v", "su", '"zy/<C-R>z<CR>N', { remap = true })
 vim.keymap.set("n", "sq", "ysiw`", { remap = true })
+vim.keymap.set("n", "sg", "$gx", { remap = true })
 
 -- {{{1 mappings t
 vim.keymap.set("n", "tm", "^c2l- ☑️ <Esc>")
