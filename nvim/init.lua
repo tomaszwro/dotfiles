@@ -19,6 +19,8 @@ vim.pack.add({
   "https://github.com/tpope/vim-rhubarb",
   "https://github.com/tpope/vim-surround",
   "https://github.com/tpope/vim-vinegar",
+  "https://github.com/tpope/vim-rsi",
+  "https://github.com/tpope/vim-eunuch",
   "https://github.com/michaeljsmith/vim-indent-object", -- replace with another text objects plugin
   "https://github.com/kana/vim-textobj-user",
   "https://github.com/kana/vim-textobj-entire",
@@ -28,6 +30,8 @@ vim.pack.add({
   "https://github.com/altercation/vim-colors-solarized",
   "https://github.com/svermeulen/vim-easyclip",
 })
+
+-- 'tpope/vim-repeat'?
 
 require('mini.move').setup()
 
