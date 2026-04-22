@@ -13,8 +13,14 @@ vim.cmd([[
 ]])
 
 -- {{{1 plugins
+
+-- plugin dir: ~/.local/share/nvim/site/pack/core/opt/
+
+vim.opt.rtp:append("/opt/homebrew/opt/fzf")
+
 vim.pack.add({
   "https://github.com/nvim-mini/mini.move",
+  "https://github.com/tpope/vim-repeat",
   "https://github.com/tpope/vim-fugitive",
   "https://github.com/tpope/vim-rhubarb",
   "https://github.com/tpope/vim-surround",
@@ -31,11 +37,7 @@ vim.pack.add({
   "https://github.com/svermeulen/vim-easyclip",
 })
 
--- 'tpope/vim-repeat'?
-
 require('mini.move').setup()
-
-vim.opt.rtp:append("/opt/homebrew/opt/fzf")
 
 -- {{{1 set
 vim.cmd([[
@@ -102,6 +104,7 @@ vim.cmd([[
   command! -nargs=+ GrepRuby cex system('ag --column --ruby <args>')
   command! -nargs=+ GrepRubyApp cex system('ag --column --ruby --ignore \*_spec.rb <args>')
   command! -nargs=+ G GrepRaw <args>
+  command! -nargs=+ Gra GrepRubyApp <args>
 ]])
 
 vim.cmd([[
@@ -203,8 +206,8 @@ vim.cmd([[
     " TODO: use note_dir once converted to lua
     let scratchpads_dir = '/Users/tomaszwrobel/snapnote/current'
     for file in v:oldfiles
-      "if (match(file, current_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
-      if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
+      "if (match(file, current_dir) == 0 || match(file, scratchpads_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
+      if (match(file, current_dir) == 0) && !(file =~ '\.git/COMMIT_EDITMSG$') && !(file =~ '\.git/rebase-merge/git-rebase-todo$')
         execute "edit " . file
         break
       endif

@@ -32,6 +32,10 @@
       "rev": "8ab36d5ec2a3a60468437a95e142ce994df598c6",
       "src": "https://github.com/michaeljsmith/vim-indent-object"
     },
+    "vim-repeat": {
+      "rev": "65846025c15494983dafe5e3b46c8f88ab2e9635",
+      "src": "https://github.com/tpope/vim-repeat"
+    },
     "vim-rhubarb": {
       "rev": "5496d7c94581c4c9ad7430357449bb57fc59f501",
       "src": "https://github.com/tpope/vim-rhubarb"
