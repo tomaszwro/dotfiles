@@ -8,19 +8,16 @@ local function current_path_with_line_and_col()
 end
 
 local function current_path_with_line()
-  -- :p does full path, :~ makes it relative to home if possible
-  return vim.fn.expand('%:p:~') .. ':' .. vim.fn.line('.') .. ':' .. vim.fn.col('.')
+  return vim.fn.expand('%:p:~') .. ':' .. vim.fn.line('.') -- :p does full path, :~ makes it relative to home if possible
 end
 
 local function append_location_to_work_file()
-  local location = current_path_with_line()
   local bufnr = vim.fn.bufnr(work_file_path)
   if bufnr == -1 then
     bufnr = vim.fn.bufadd(work_file_path)
     vim.fn.bufload(bufnr)
   end
-  local line_count = vim.api.nvim_buf_line_count(bufnr)
-  vim.api.nvim_buf_set_lines(bufnr, line_count, line_count, false, { location })
+  vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { current_path_with_line() })
   vim.bo[bufnr].modified = true
   vim.notify("saved current location")
 end
