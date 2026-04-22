@@ -15,7 +15,6 @@ local function append_location_to_work_file()
   local bufnr = vim.fn.bufadd(work_file_path)
   vim.fn.bufload(bufnr)
   vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { current_path_with_line() })
-  vim.bo[bufnr].modified = true
   vim.notify("saved current location")
 end
 
