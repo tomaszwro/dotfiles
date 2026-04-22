@@ -3,8 +3,26 @@ local note_dir = "/Users/tomaszwrobel/snapnote/current"
 local work_file_path = "/Users/tomaszwrobel/snapnote/current/A_tr_aaa_auth_zero.md"
 local priv_file_path = "/Users/tomaszwrobel/snapnote/current/y26_my_monthly_plate_one_pager.md"
 
-local function current_path_with_pos()
+local function current_path_with_line_and_col()
   return vim.fn.expand('%') .. ':' .. vim.fn.line('.') .. ':' .. vim.fn.col('.')
+end
+
+local function current_path_with_line()
+  -- :p does full path, :~ makes it relative to home if possible
+  return vim.fn.expand('%:p:~') .. ':' .. vim.fn.line('.') .. ':' .. vim.fn.col('.')
+end
+
+local function append_location_to_work_file()
+  local location = current_path_with_line()
+  local bufnr = vim.fn.bufnr(work_file_path)
+  if bufnr == -1 then
+    bufnr = vim.fn.bufadd(work_file_path)
+    vim.fn.bufload(bufnr)
+  end
+  local line_count = vim.api.nvim_buf_line_count(bufnr)
+  vim.api.nvim_buf_set_lines(bufnr, line_count, line_count, false, { location })
+  vim.bo[bufnr].modified = true
+  vim.notify("saved current location")
 end
 
 vim.cmd([[
@@ -180,6 +198,7 @@ vim.cmd([[
 --   normal Gp
 -- endfunction
 -- nnoremap <leader>sl :call SaveCurrentLocationInTodos()<CR>
+vim.keymap.set("n", "<leader>sl", append_location_to_work_file)
 
 vim.cmd([[
   function! BrowseOldFilesFromCwd()
@@ -417,8 +436,8 @@ vim.keymap.set("n", "<leader>sw", ":set wrap!<CR>")
 
 vim.keymap.set("n", "<leader>gu", ":GrepRubyApp -w <C-r><C-w><CR>:cw<CR>")
 vim.keymap.set("n", "<leader>gd", ":Gcd .<CR>:terminal git_diff_raw_all<CR>:cd -<CR>")
-vim.keymap.set("n", "<leader>gs", function() vim.cmd('silent !' .. 'subl -w ' .. current_path_with_pos()) end)
-vim.keymap.set("n", "<leader>gv", function() vim.cmd('silent !' .. 'code -g ' .. current_path_with_pos()) end)
+vim.keymap.set("n", "<leader>gs", function() vim.cmd('silent !' .. 'subl -w ' .. current_path_with_line_and_col()) end)
+vim.keymap.set("n", "<leader>gv", function() vim.cmd('silent !' .. 'code -g ' .. current_path_with_line_and_col()) end)
 vim.keymap.set("v", "<leader>gu", '"zy:GrepRaw "<C-R>z"<CR>')
 
 vim.keymap.set("n", "<leader>xx", ":sp | term<CR>a")
