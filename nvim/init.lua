@@ -45,7 +45,7 @@ vim.pack.add({
   "https://github.com/beloglazov/vim-textobj-quotes",
   "https://github.com/itchyny/lightline.vim",
   "https://github.com/airblade/vim-gitgutter",
-  "https://github.com/altercation/vim-colors-solarized",
+  -- "https://github.com/altercation/vim-colors-solarized",
   "https://github.com/svermeulen/vim-easyclip",
 })
 
@@ -97,18 +97,19 @@ vim.cmd([[
 ]])
 
 -- {{{1 colors
-vim.cmd([[
-  let g:gitgutter_override_sign_column_highlight = 0
-  "colorscheme vim
-  colorscheme solarized
-  set notermguicolors
 
-  hi Search ctermfg=NONE ctermbg=NONE cterm=underline
-  hi IncSearch ctermfg=NONE ctermbg=NONE cterm=underline
-  hi MatchParen ctermbg=NONE ctermfg=green cterm=NONE
-  hi VertSplit ctermbg=0 ctermfg=0
-  hi SignColumn ctermbg=bg
-]])
+-- vim.cmd([[
+--   let g:gitgutter_override_sign_column_highlight = 0
+--   "colorscheme vim
+--   colorscheme solarized
+--   set notermguicolors
+--
+--   hi Search ctermfg=NONE ctermbg=NONE cterm=underline
+--   hi IncSearch ctermfg=NONE ctermbg=NONE cterm=underline
+--   hi MatchParen ctermbg=NONE ctermfg=green cterm=NONE
+--   hi VertSplit ctermbg=0 ctermfg=0
+--   hi SignColumn ctermbg=bg
+-- ]])
 
 -- {{{1 commands
 vim.cmd([[
@@ -349,8 +350,8 @@ vim.keymap.set("", "ge", "<Plug>CamelCaseMotion_e", { silent = true, remap = tru
 vim.keymap.set("", ";",  "<Plug>CamelCaseMotion_w", { silent = true, remap = true })
 vim.keymap.set("", ",",  "<Plug>CamelCaseMotion_b", { silent = true, remap = true })
 vim.keymap.set("t", "<C-b>", "<C-\\><C-n>")
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
+-- vim.keymap.set("n", "j", "gj")
+-- vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "vai", "vaI", { remap = true })
 vim.keymap.set("n", "vis", "jvii", { remap = true })
 vim.keymap.set("n", "vas", "jvai", { remap = true })
